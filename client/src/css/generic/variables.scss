@@ -1,0 +1,49 @@
+/* ------------------------------------------------------------ *\
+  Variables
+\* ------------------------------------------------------------ */
+
+$font-family-izoard: "Izoard", sans-serif;
+$font-family-config: "Config", sans-serif;
+$font-family-messina-sans-trial: "Messina Sans Trial", sans-serif;
+$font-weight-base: 400;
+
+$font-size-base: 1.144rem;
+$line-height-base: 1.5;
+
+$shell-max-width: 1922px;
+$shell-small-width: 1210px;
+$shell-dynamic: 62.955rem;
+$shell-gutter: 48px;
+$shell-gutter-mobile: 20px;
+
+$t-duration: 0.3s;
+
+$responsive-xxs: 480px;
+$responsive-xs: 767px;
+$responsive-sm-landscape: 812px;
+$responsive-sm: 1023px;
+$responsive-md: 1200px;
+$responsive-lg: 1600px;
+
+$mobile-small: "(max-width: #{$responsive-xxs}) ";
+$mobile: "(max-width: #{$responsive-xs}), screen and (max-width: #{$responsive-sm-landscape}) and (orientation: landscape) ";
+$tablet-portrait: "(max-width: #{$responsive-sm}) ";
+$small-desktop: "(max-width: #{$responsive-md}) ";
+$large-desktop: "(max-width: #{$responsive-lg}) ";
+$retina: "(min-resolution: 2dppx) ";
+
+// Usage
+// @media #{$small-desktop}
+
+/*  Colors  */
+
+$base: #000;
+$primary: #00FFBA;
+$secondary: #08E5A9;
+$tertiary: #E5E5E1;
+$light-gray: #FBFBFB;
+$grey: #333033;
+$white: #fff;
+$black: #0F0E0E;
+$accent: #000;
+$error: red;
