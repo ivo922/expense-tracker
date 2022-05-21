@@ -2,19 +2,15 @@
   Variables
 \* ------------------------------------------------------------ */
 
-$font-family-izoard: "Izoard", sans-serif;
-$font-family-config: "Config", sans-serif;
-$font-family-messina-sans-trial: "Messina Sans Trial", sans-serif;
+$font-family-roboto: 'Roboto', sans-serif;
 $font-weight-base: 400;
 
-$font-size-base: 1.144rem;
+$font-size-base: 14px;
 $line-height-base: 1.5;
+$letter-spacing-base: 0.02em;
 
-$shell-max-width: 1922px;
-$shell-small-width: 1210px;
-$shell-dynamic: 62.955rem;
-$shell-gutter: 48px;
-$shell-gutter-mobile: 20px;
+$shell-max-width: 1200px;
+$shell-gutter: 15px;
 
 $t-duration: 0.3s;
 
@@ -25,25 +21,21 @@ $responsive-sm: 1023px;
 $responsive-md: 1200px;
 $responsive-lg: 1600px;
 
-$mobile-small: "(max-width: #{$responsive-xxs}) ";
-$mobile: "(max-width: #{$responsive-xs}), screen and (max-width: #{$responsive-sm-landscape}) and (orientation: landscape) ";
-$tablet-portrait: "(max-width: #{$responsive-sm}) ";
-$small-desktop: "(max-width: #{$responsive-md}) ";
-$large-desktop: "(max-width: #{$responsive-lg}) ";
-$retina: "(min-resolution: 2dppx) ";
+$mobile-small: '(max-width: #{$responsive-xxs}) ';
+$mobile: '(max-width: #{$responsive-xs}), screen and (max-width: #{$responsive-sm-landscape}) and (orientation: landscape) ';
+$tablet-portrait: '(max-width: #{$responsive-sm}) ';
+$small-desktop: '(max-width: #{$responsive-md}) ';
+$large-desktop: '(max-width: #{$responsive-lg}) ';
+$retina: '(min-resolution: 2dppx) ';
 
 // Usage
 // @media #{$small-desktop}
 
 /*  Colors  */
 
-$base: #000;
-$primary: #00FFBA;
-$secondary: #08E5A9;
-$tertiary: #E5E5E1;
-$light-gray: #FBFBFB;
-$grey: #333033;
-$white: #fff;
-$black: #0F0E0E;
-$accent: #000;
-$error: red;
+$c-dark:       #222629;
+$c-gray:       #474b4f;
+$c-lightgray:  #6b6e70;
+$c-green:      #61892f;
+$c-lightgreen: #86c232;
+$c-white:      #f2f2f2;

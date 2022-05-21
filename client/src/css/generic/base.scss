@@ -2,26 +2,15 @@
   Base
 \* ------------------------------------------------------------ */
 
-html {
-  font-size: 1vw;
-}
-
 body {
   min-width: 320px;
-  background: #fff;
-  font-family: $font-family-izoard;
+  background: $c-dark;
+  font-family: $font-family-roboto;
   font-weight: $font-weight-base;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  color: $base;
-
-  @media #{$mobile} {
-    font-size: 18px;
-  }
-
-  &.noscroll {
-    overflow: hidden;
-  }
+  letter-spacing: $letter-spacing-base;
+  color: $c-white;
 }
 
 a {
@@ -31,7 +20,7 @@ a {
 
   &:hover {
     text-decoration: none;
-    color: $primary;
+    color: $c-lightgreen;
   }
 }
 
@@ -51,52 +40,34 @@ h5,
 .h5,
 h6,
 .h6 {
-  font-family: $font-family-config;
+  font-family: $font-family-roboto;
   font-weight: 600;
 }
 
 h1,
 .h1 {
-  font-size: 8.74rem;
-  font-weight: 600;
-  letter-spacing: 0.89rem;
-  line-height: 0.94;
-
-  @media #{$small-desktop} {
-    font-size: 104px;
-  }
-
-  @media #{$tablet-portrait} {
-    font-size: 80px;
-  }
+  font-size: 48px;
+  letter-spacing: 0.02em;
 }
 h2,
 .h2 {
-  font-size: 4.162rem;
-
-  @media #{$small-desktop} {
-    font-size: 50px;
-  }
-
-  @media #{$mobile-small} {
-    font-size: 32px;
-  }
+  font-size: 32px;
 }
 h3,
 .h3 {
-  font-size: 64px;
+  font-size: 24px;
 }
 h4,
 .h4 {
-  font-size: 42px;
+  font-size: 20px;
 }
 h5,
 .h5 {
-  font-size: 22px;
+  font-size: 18px;
 }
 h6,
 .h6 {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 h1[class],
@@ -126,18 +97,6 @@ ol {
 
 ul {
   list-style: none;
-}
-
-img[style='float: left;'] {
-  max-width: 50%;
-  height: auto;
-  margin: 0 10px 10px 0;
-}
-
-img[style='float: right;'] {
-  max-width: 50%;
-  height: auto;
-  margin: 0 0 10px 10px;
 }
 
 nav {
