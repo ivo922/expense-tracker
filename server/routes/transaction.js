@@ -72,6 +72,7 @@ transactionRoutes.route('/update/:id').post(function (req, response) {
     .updateOne(query, values, function (err, res) {
       if (err) throw err;
       console.log('1 document updated');
+      response.json(res);
     });
 });
 
