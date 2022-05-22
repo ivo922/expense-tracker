@@ -1,0 +1,35 @@
+/* ------------------------------------------------------------ *\
+  Balance
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.Balance {
+  position: relative;
+  padding: 10px;
+
+  .Balance__value {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .Balance__circle {
+    width: 100%;
+    padding-bottom: 100%;
+    border: solid 3px currentColor;
+    border-radius: 50%;
+  }
+
+  &.negative {
+    color: $c-red;
+  }
+
+  &.positive {
+    color: $c-lightgreen;
+  }
+}

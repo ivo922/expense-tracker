@@ -1,0 +1,11 @@
+/* ------------------------------------------------------------ *\
+  react-datepicker
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.react-datepicker {
+  .react-datepicker__day--selected {
+    background-color: $c-lightgreen;
+  }
+}

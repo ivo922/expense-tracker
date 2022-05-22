@@ -1,0 +1,39 @@
+/* ------------------------------------------------------------ *\
+  form
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.form {
+  label {
+    display: block;
+  }
+
+  .field,
+  .form__submit {
+    width: 100%;
+    border: solid 3px currentColor;
+    border-radius: 10px;
+    background: transparent;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $c-white;
+  }
+
+  .form__row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form__controls {
+    flex: 1;
+  }
+
+  .form__submit--deposit {
+    color: $c-lightgreen;
+  }
+}

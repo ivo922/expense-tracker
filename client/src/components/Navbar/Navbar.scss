@@ -10,12 +10,6 @@
   letter-spacing: 0.05em;
   background-color: $c-green;
 
-  // TODO: remove these - use flex
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-
   ul {
     display: flex;
   }
