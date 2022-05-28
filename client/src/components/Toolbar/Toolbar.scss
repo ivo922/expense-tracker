@@ -1,0 +1,15 @@
+/* ------------------------------------------------------------ *\
+  Toolbar
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.Toolbar {
+  background-color: $c-green;
+  padding: 15px 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-align: center;
+}

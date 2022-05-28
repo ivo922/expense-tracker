@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import './Toolbar.scss';
 
 function Toolbar() {
-  const [title, setTitle] = useState(document.title);
+  const title = useSelector((state) => state.title.text);
 
   return (
     <div className="Toolbar">
