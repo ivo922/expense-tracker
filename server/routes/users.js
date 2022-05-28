@@ -12,12 +12,12 @@ const dbo = require('../db/conn');
 const ObjectId = require('mongodb').ObjectId;
 
 /**
- * Get all transactions.
+ * Get all users.
  */
 transactionRoutes.route('/transaction').get(function (req, res) {
   let db_connect = dbo.getDb();
   db_connect
-    .collection('transactions')
+    .collection('users')
     .find({})
     .toArray(function (err, result) {
       if (err) throw err;
@@ -31,7 +31,7 @@ transactionRoutes.route('/transaction').get(function (req, res) {
 transactionRoutes.route('/transaction/:id').get(function (req, res) {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
-  db_connect.collection('transactions').findOne(query, function (err, result) {
+  db_connect.collection('users').findOne(query, function (err, result) {
     if (err) throw err;
     res.json(result);
   });
@@ -47,7 +47,7 @@ transactionRoutes.route('/transaction/add').post(function (req, response) {
     position: req.body.position,
     level: req.body.level,
   };
-  db_connect.collection('transactions').insertOne(values, function (err, res) {
+  db_connect.collection('users').insertOne(values, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -68,7 +68,7 @@ transactionRoutes.route('/update/:id').post(function (req, response) {
   };
 
   db_connect
-    .collection('transactions')
+    .collection('users')
     .updateOne(query, values, function (err, res) {
       if (err) throw err;
       console.log('1 document updated');
@@ -82,7 +82,7 @@ transactionRoutes.route('/update/:id').post(function (req, response) {
 transactionRoutes.route('/:id').delete((req, response) => {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
-  db_connect.collection('transactions').deleteOne(query, function (err, obj) {
+  db_connect.collection('users').deleteOne(query, function (err, obj) {
     if (err) throw err;
     console.log('1 document deleted');
     response.json(obj);

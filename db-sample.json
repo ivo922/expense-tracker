@@ -1,0 +1,30 @@
+{
+  "accounts": [
+    {
+      "name": "Savings",
+      "balance": "1000",
+      "categories": {
+        "deposit": ["Salary", "Investment"],
+        "withdrawal": ["Emergency", "Investment", "Car", "Health"]
+      }
+    }
+  ],
+  "transactions": [
+    {
+      "date": "01-05-2022",
+      "type": "deposit",
+      "amount": "100",
+      "account": "Savings",
+      "category": "Salary",
+      "description": "Zaplata za 05.2022"
+    },
+    {
+      "date": "02-05-2022",
+      "type": "transfer",
+      "amount": "100",
+      "account_from": "Savings",
+      "account_to": "Credit",
+      "description": ""
+    }
+  ]
+}
