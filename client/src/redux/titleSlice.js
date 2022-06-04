@@ -6,12 +6,12 @@ export const titleSlice = createSlice({
     text: 'Expense Tracker',
   },
   reducers: {
-    change: (state, action) => {
+    changeTitle: (state, action) => {
       state.text = action.payload;
     },
   },
 });
 
-export const { change } = titleSlice.actions;
+export const { changeTitle } = titleSlice.actions;
 
 export default titleSlice.reducer;
