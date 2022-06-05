@@ -1,0 +1,50 @@
+/* ------------------------------------------------------------ *\
+  Accounts
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.Accounts {
+  position: relative;
+  padding: 5px;
+  background-color: $c-darkgreen;
+
+  span {
+    position: relative;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      vertical-align: middle;
+      margin-left: 4px;
+      border-bottom: solid 0 transparent;
+      border-top: solid 6px currentColor;
+      border-left: solid 4px transparent;
+      border-right: solid 4px transparent;
+    }
+  }
+
+  ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -5px;
+    background-color: $c-darkgreen;
+    z-index: 5;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  li {
+    padding: 10px;
+    white-space: nowrap;
+
+    &.current {
+      background-color: rgba($c-dark, 0.5);
+    }
+  }
+}

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeTitle } from '../../redux/titleSlice';
 
 import DatePicker from 'react-datepicker';
 
@@ -25,9 +23,6 @@ function Deposit() {
   useEffect(() => {
     document.title = 'Deposit';
   });
-
-  const dispatch = useDispatch();
-  dispatch(changeTitle('Deposit'));
 
   return (
     <div className="Deposit">

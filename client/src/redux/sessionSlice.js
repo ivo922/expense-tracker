@@ -11,14 +11,19 @@ export const sessionSlice = createSlice({
   name: 'session',
   initialState: {
     user: {},
+    activeAccount: '',
   },
   reducers: {
     updateSession: (state, action) => {
       state.user = action.payload;
+      state.activeAccount = action.payload.accounts[0];
+    },
+    setActiveAccount: (state, action) => {
+      state.activeAccount = action.payload;
     }
   },
 });
 
-export const { updateSession } = sessionSlice.actions;
+export const { updateSession, setActiveAccount } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

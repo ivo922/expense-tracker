@@ -21,15 +21,25 @@
   .Balance__circle {
     width: 100%;
     padding-bottom: 100%;
-    border: solid 3px currentColor;
+    border: solid 3px transparent;
     border-radius: 50%;
   }
 
   &.negative {
     color: $c-red;
+
+    .Balance__circle {
+      border-color: $c-red;
+      background-color: rgba($c-red, 0.25);
+    }
   }
 
   &.positive {
     color: $c-lightgreen;
+
+    .Balance__circle {
+      border-color: $c-lightgreen;
+      background-color: rgba($c-lightgreen, 0.25);
+    }
   }
 }
