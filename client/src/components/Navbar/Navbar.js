@@ -8,7 +8,7 @@ function Navbar() {
     <nav className="Navbar">
       <ul>
         <li>
-          <NavLink to="/overview">Overview</NavLink>
+          <NavLink to="/">Overview</NavLink>
         </li>
 
         <li>

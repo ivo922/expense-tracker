@@ -18,7 +18,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 /**
  * Get all users.
  */
-router.route('/transaction').get(function (req, res) {
+router.route('/api/user').get(function (req, res) {
   let db_connect = dbo.getDb();
   db_connect
     .collection('users')
@@ -32,7 +32,7 @@ router.route('/transaction').get(function (req, res) {
 /**
  * Get transaction by ID.
  */
-router.route('/transaction/:id').get(function (req, res) {
+router.route('/api/user/:id').get(function (req, res) {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
   db_connect.collection('users').findOne(query, function (err, result) {
@@ -91,7 +91,9 @@ router.route('/:id').delete((req, response) => {
   });
 });
 
-// TODO: db connection for google auth
+/**
+ * Login
+ */
 router.route('/api/v1/auth/google').post(async (req, res) => {
   const { token } = req.body;
   const ticket = await client.verifyIdToken({
@@ -100,15 +102,50 @@ router.route('/api/v1/auth/google').post(async (req, res) => {
   });
   const { name, email, picture } = ticket.getPayload();
 
-  // TODO: check the id against the DB and update name and picture or create a new user.
-  // const user = await db.user.upsert({
-  //   where: { email: email },
-  //   update: { name, picture },
-  //   create: { name, email, picture },
-  // });
-  res.status(201);
-  // res.json(user);
-  res.json(ticket.getPayload());
+  const db_connect = dbo.getDb();
+  const query = { email };
+  db_connect.collection('users').findOne(query, function (err, result) {
+    if (err) throw err;
+
+    // If the user exists - return it.
+    if (!!result) {
+      res.status(200);
+      res.json(result);
+
+      // If the user doesn't exist - create a new one with base template.
+    } else {
+      const newUser = {
+        email,
+        name,
+        picture,
+        accounts: [
+          {
+            name: 'General',
+            balance: '0',
+            categories: {
+              deposit: ['Salary', 'Loan', 'Other'],
+              withdrawal: [
+                'Food',
+                'Entertainment',
+                'Car',
+                'Health',
+                'Education',
+                'Clothing',
+                'Other',
+              ],
+            },
+          },
+        ],
+        transactions: [],
+      };
+
+      db_connect.collection('users').insertOne(newUser, function (err, result) {
+        if (err) throw err;
+        res.status(201);
+        res.json(result);
+      });
+    }
+  });
 });
 
 module.exports = router;

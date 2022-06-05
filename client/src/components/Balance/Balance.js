@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import './Balance.scss';
 
 function Balance() {
-  const [balance, setBalance] = useState(1000);
+  // TODO: show active account balance
+  const balance = useSelector(state => state.session.user.accounts[0].balance);
 
   return (
     <div className={`Balance${balance < 0 ? ' negative' : ' positive'}`}>

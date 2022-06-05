@@ -1,11 +1,14 @@
 {
+  "email": "",
+  "name": "",
+  "image": "",
   "accounts": [
     {
-      "name": "Savings",
-      "balance": "1000",
+      "name": "General",
+      "balance": "0",
       "categories": {
-        "deposit": ["Salary", "Investment"],
-        "withdrawal": ["Emergency", "Investment", "Car", "Health"]
+        "deposit": ["Salary", "Loan"],
+        "withdrawal": ["Food", "Entertainment", "Car", "Health", "Education", "Clothing"]
       }
     }
   ],

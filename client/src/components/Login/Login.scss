@@ -1,0 +1,23 @@
+/* ------------------------------------------------------------ *\
+  Login
+\* ------------------------------------------------------------ */
+
+.Login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  iframe {
+    margin: 0 !important;
+  }
+
+  .Login__title {
+    margin-bottom: 15px;
+  }
+
+  .Login__inner {
+    padding: 0 10px;
+  }
+}
