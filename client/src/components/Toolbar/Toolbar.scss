@@ -6,6 +6,8 @@
 
 .Toolbar {
   background-color: $c-green;
+  box-shadow: 6px 6px 12px rgba($c-dark, 0.2);
+  border-bottom: solid 2px rgba($c-dark, 0.1);
   padding: 10px;
   line-height: 1.2;
   letter-spacing: 0.02em;
