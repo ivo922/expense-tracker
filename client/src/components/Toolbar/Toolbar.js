@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Avatar from '../Avatar/Avatar';
 
 import './Toolbar.scss';
 
@@ -8,9 +9,9 @@ function Toolbar() {
 
   return (
     <div className="Toolbar">
-      <div className="Toolbar__back"></div>
-
       <div className="Toolbar__title">{title}</div>
+
+      <Avatar />
     </div>
   );
 }
