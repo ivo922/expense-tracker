@@ -1,16 +1,26 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { toggleSidebar } from '../../redux/sidebarSlice';
 import Accounts from '../Accounts/Accounts';
 import Avatar from '../Avatar/Avatar';
 
 import './Toolbar.scss';
 
 function Toolbar() {
+  const dispatch = useDispatch();
+
   return (
     <div className="Toolbar">
       <Accounts />
 
-      <Avatar />
+      <div
+        className="Toolbar__avatar"
+        onClick={() => {
+          dispatch(toggleSidebar());
+        }}
+      >
+        <Avatar />
+      </div>
     </div>
   );
 }

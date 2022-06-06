@@ -1,0 +1,78 @@
+/* ------------------------------------------------------------ *\
+  Sidebar
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 10px 15px;
+  transform: translateX(100%);
+  transition: transform .3s;
+  background-color: $c-darkgreen;
+  color: $c-white;
+
+  &.active {
+    transform: translateX(0);
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    width: 100%;
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.7990546560421043) 10%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.7990546560421043) 90%, rgba(0,0,0,0) 100%);
+  }
+
+  // Head
+  .Sidebar__head {
+    text-align: center;
+    padding: 10px 0 15px;
+    border-bottom: solid 1px $c-white;
+  }
+
+  .Sidebar__title {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .Sidebar__close {
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 24px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  // Body
+  .Sidebar__body {
+    flex: 1;
+  }
+
+  // Foot
+  .Sidebar__foot {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 0;
+    border-top: solid 1px $c-white;
+  }
+
+  // ProfileDetails
+  .ProfileDetails {
+    border-bottom: solid 1px $c-white;
+  }
+}

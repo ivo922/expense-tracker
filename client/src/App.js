@@ -9,6 +9,7 @@ import Deposit from './components/Deposit/Deposit.js';
 import Toolbar from './components/Toolbar/Toolbar.js';
 import Login from './components/Login/Login.js';
 import { updateSession } from './redux/sessionSlice.js';
+import Sidebar from './components/Sidebar/Sidebar.js';
 
 function App() {
   const user = useSelector((state) => state.session.user);
@@ -42,6 +43,7 @@ function App() {
   return (
     <div className="wrapper">
       <Toolbar />
+      <Sidebar />
 
       <Routes>
         <Route path="/" element={<Overview />} />

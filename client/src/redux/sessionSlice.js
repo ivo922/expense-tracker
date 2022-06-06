@@ -20,10 +20,13 @@ export const sessionSlice = createSlice({
     },
     setActiveAccount: (state, action) => {
       state.activeAccount = action.payload;
-    }
+    },
+    removeUser: (state, action) => {
+      state.user = {};
+    },
   },
 });
 
-export const { updateSession, setActiveAccount } = sessionSlice.actions;
+export const { updateSession, setActiveAccount, removeUser } = sessionSlice.actions;
 
 export default sessionSlice.reducer;
