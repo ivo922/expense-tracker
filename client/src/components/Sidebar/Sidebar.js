@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/sidebarSlice';
+import AccountsCRUD from '../AccountsCRUD/AccountsCRUD';
 import Logout from '../Logout/Logout';
 import ProfileDetails from '../ProfileDetails/ProfileDetails';
 
@@ -27,6 +28,8 @@ function Sidebar() {
 
       <div className="Sidebar__body">
         <ProfileDetails />
+
+        <AccountsCRUD />
       </div>
 
       <footer className="Sidebar__foot">

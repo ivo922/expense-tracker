@@ -1,11 +1,10 @@
 // TODO:
 
 /**
- * * Google login
- * * DB user creation and redux implementation
  * * Withdrawal
  * * Transfer
  *
- * ? Connect front end to backend
+ * * Add .btn class on every button to reset it
+ *
  * ? History
  */

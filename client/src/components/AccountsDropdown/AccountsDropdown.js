@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setActiveAccount } from '../../redux/sessionSlice';
 
-import './Accounts.scss';
+import './AccountsDropdown.scss';
 
-function Accounts() {
+function AccountsDropdown() {
   const accounts = useSelector((state) => state.session.user.accounts);
   const current = useSelector((state) => state.session.activeAccount);
   const [active, setActive] = useState(false);
@@ -13,7 +13,7 @@ function Accounts() {
   const navigate = useNavigate();
 
   return (
-    <div className="Accounts">
+    <div className="AccountsDropdown">
       <span
         className={active ? 'active' : ''}
         onClick={() => {
@@ -42,4 +42,4 @@ function Accounts() {
   );
 }
 
-export default Accounts;
+export default AccountsDropdown;

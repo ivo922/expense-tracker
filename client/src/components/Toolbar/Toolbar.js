@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleSidebar } from '../../redux/sidebarSlice';
-import Accounts from '../Accounts/Accounts';
+import AccountsDropdown from '../AccountsDropdown/AccountsDropdown';
 import Avatar from '../Avatar/Avatar';
 
 import './Toolbar.scss';
@@ -11,7 +11,7 @@ function Toolbar() {
 
   return (
     <div className="Toolbar">
-      <Accounts />
+      <AccountsDropdown />
 
       <div
         className="Toolbar__avatar"
