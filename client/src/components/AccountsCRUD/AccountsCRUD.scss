@@ -5,6 +5,14 @@
 @import '../../css/generic/variables.scss';
 
 .AccountsCRUD {
+  h6 {
+    padding: 5px 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
   .AccountsCRUD__create {
     width: 100%;
     text-transform: uppercase;

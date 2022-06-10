@@ -21,7 +21,7 @@ function App() {
       try {
         if (Object.keys(user).length == 0) {
           if (userId) {
-            const response = await fetch(`http://localhost:5000/api/user/${userId}`);
+            const response = await fetch(`http://localhost:5000/api/users/${userId}`);
             const user = await response.json();
             if (!!user) {
               dispatch(updateSession(user));

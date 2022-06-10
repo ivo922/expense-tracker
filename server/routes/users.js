@@ -18,7 +18,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 /**
  * Get all users.
  */
-router.route('/api/user').get(function (req, res) {
+router.route('/api/users').get(function (req, res) {
   let db_connect = dbo.getDb();
   db_connect
     .collection('users')
@@ -30,9 +30,9 @@ router.route('/api/user').get(function (req, res) {
 });
 
 /**
- * Get transaction by ID.
+ * Get user by ID.
  */
-router.route('/api/user/:id').get(function (req, res) {
+router.route('/api/users/:id').get(function (req, res) {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
   db_connect.collection('users').findOne(query, function (err, result) {
@@ -42,7 +42,7 @@ router.route('/api/user/:id').get(function (req, res) {
 });
 
 /**
- * Create transaction.
+ * Create user.
  */
 router.route('/transaction/add').post(function (req, response) {
   let db_connect = dbo.getDb();
@@ -58,16 +58,14 @@ router.route('/transaction/add').post(function (req, response) {
 });
 
 /**
- * Update transaction by ID.
+ * Update user accounts by user ID.
  */
-router.route('/update/:id').post(function (req, response) {
+router.route('/api/users/update/accounts/:id').post(function (req, response) {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
   let values = {
     $set: {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
+      accounts: req.body.accounts,
     },
   };
 
@@ -79,7 +77,30 @@ router.route('/update/:id').post(function (req, response) {
 });
 
 /**
- * Delete transaction by ID.
+ * Update user transactions by user ID.
+ */
+router
+  .route('/api/users/update/transactions/:id')
+  .post(function (req, response) {
+    let db_connect = dbo.getDb();
+    let query = { _id: ObjectId(req.params.id) };
+    let values = {
+      $set: {
+        transactions: req.body.transactions,
+      },
+    };
+
+    db_connect
+      .collection('users')
+      .updateOne(query, values, function (err, res) {
+        if (err) throw err;
+        console.log('1 document updated');
+        response.json(res);
+      });
+  });
+
+/**
+ * Delete user by ID.
  */
 router.route('/:id').delete((req, response) => {
   let db_connect = dbo.getDb();
@@ -92,7 +113,7 @@ router.route('/:id').delete((req, response) => {
 });
 
 /**
- * Login
+ * Login/Register
  */
 router.route('/api/v1/auth/google').post(async (req, res) => {
   const { token } = req.body;

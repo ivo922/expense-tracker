@@ -1,6 +1,10 @@
 // TODO:
 
 /**
+ * * Create account
+ * * Edit account popup
+ *
+ * * Deposit
  * * Withdrawal
  * * Transfer
  *

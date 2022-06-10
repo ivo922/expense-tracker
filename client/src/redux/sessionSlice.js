@@ -16,7 +16,7 @@ export const sessionSlice = createSlice({
   reducers: {
     updateSession: (state, action) => {
       state.user = action.payload;
-      state.activeAccount = action.payload.accounts[0];
+      state.activeAccount = 0;
     },
     setActiveAccount: (state, action) => {
       state.activeAccount = action.payload;

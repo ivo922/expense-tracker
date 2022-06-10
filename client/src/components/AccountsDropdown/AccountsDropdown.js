@@ -7,7 +7,8 @@ import './AccountsDropdown.scss';
 
 function AccountsDropdown() {
   const accounts = useSelector((state) => state.session.user.accounts);
-  const current = useSelector((state) => state.session.activeAccount);
+  const activeAccount = useSelector((state) => state.session.activeAccount);
+  const current = accounts[activeAccount];
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,17 +25,17 @@ function AccountsDropdown() {
       </span>
 
       <ul className={active ? 'active' : ''}>
-        {accounts.map((account) => {
+        {accounts.map((account, index) => {
           return (
             <li
               key={account.name}
               className={account.name === current.name ? 'current' : ''}
               onClick={() => {
-                dispatch(setActiveAccount(account));
+                dispatch(setActiveAccount(index));
                 setActive(false);
                 navigate('/');
               }}
-            >{`${account.name} - ${account.balance/100} BGN`}</li>
+            >{`${account.name} - ${account.balance / 100} BGN`}</li>
           );
         })}
       </ul>
