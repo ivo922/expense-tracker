@@ -1,0 +1,38 @@
+/* ------------------------------------------------------------ *\
+  AccountsCategories
+\* ------------------------------------------------------------ */
+
+@import '../../css/generic/variables.scss';
+
+.AccountsCategories {
+  margin-bottom: 10px;
+
+  li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  li:last-child {
+    margin-top: 10px;
+  }
+
+  .AccountsCategories__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .Icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .Icon + .Icon {
+    margin-left: 3px;
+  }
+
+  .Icon img {
+    filter: invert(100);
+  }
+}

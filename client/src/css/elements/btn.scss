@@ -2,8 +2,37 @@
   btn
 \* ------------------------------------------------------------ */
 
+@import '../../css/generic/variables.scss';
+
 .btn {
   background: none;
   border: none;
   outline: none;
+}
+
+.btn--base {
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: block;
+  padding: 10px;
+  color: $c-dark;
+  border: solid 3px currentColor;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px rgba(34, 38, 41, 0.2);
+  text-shadow: 1px 1px 2px rgba(34, 38, 41, 0.1);
+}
+
+.btn--green {
+  background-color: $c-lightgreen;
+  border-color: $c-lightgreen;
+  color: $c-white;
+}
+
+.btn--red {
+  background-color: $c-red;
+  border-color: $c-red;
+  color: $c-white;
 }

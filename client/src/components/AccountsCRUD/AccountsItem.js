@@ -11,7 +11,7 @@ function AccountsItem(props) {
   return (
     <div className="AccountsItem">
       <div className="AccountsItem__content">
-        {props.account.name} - {props.account.balance}
+        {props.account.name} - {props.account.balance} BGN
       </div>
 
       <div className="AccountsItem__actions">
