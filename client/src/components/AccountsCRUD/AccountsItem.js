@@ -4,9 +4,13 @@ import Icon from '../Icon/Icon';
 import './AccountsItem.scss';
 
 function AccountsItem(props) {
-  const onEdit = () => {};
+  const onEdit = () => {
+    props.onEdit(props.account);
+  };
 
-  const onDelete = () => {};
+  const onDelete = () => {
+    props.onDelete(props.account);
+  };
 
   return (
     <div className="AccountsItem">

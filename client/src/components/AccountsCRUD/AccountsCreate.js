@@ -5,10 +5,16 @@ import Popup from '../Popup/Popup';
 import './AccountsCategories.scss';
 
 function AccountsCreate(props) {
-  const [categories, setCategories] = useState({
-    deposit: ['General'],
-    withdrawal: ['General'],
-  });
+  const [categories, setCategories] = useState(
+    !!props.account
+      ? props.account.categories
+      : {
+        deposit: ['General'],
+        withdrawal: ['General'],
+      }
+  );
+
+  const [name, setName] = useState(!!props.account ? props.account.name : '');
 
   /**
    * Add a category.
@@ -50,12 +56,12 @@ function AccountsCreate(props) {
    */
   const onSubmit = (event) => {
     event.preventDefault();
-    const name = new FormData(event.target).get('name');
+    const newName = new FormData(event.target).get('name');
     const deposit = new FormData(event.target).getAll('deposit');
     const withdrawal = new FormData(event.target).getAll('withdrawal');
 
     const newAccount = {
-      name,
+      name: newName,
       balance: 0,
       categories: {
         deposit,
@@ -90,14 +96,14 @@ function AccountsCreate(props) {
    */
   const onClose = () => {
     props.onClose();
-  }
+  };
 
   return (
     <Popup onClose={onClose}>
       <div className="AccountsCreate">
         <form className="form" onSubmit={onSubmit}>
           <div className="form__head">
-            <h4 className="form__title">Create new account</h4>
+            <h4 className="form__title">{!!props.account ? 'Edit' : 'Create new'} account</h4>
           </div>
 
           <div className="form__body">
@@ -110,7 +116,8 @@ function AccountsCreate(props) {
                 <input
                   id="name"
                   name="name"
-                  className="form__field"
+                  defaultValue={name}
+                  className={`form__field${!!props.account ? ' hidden' : ''}`}
                   placeholder="Account name"
                   maxLength={15}
                   required
@@ -203,7 +210,7 @@ function AccountsCreate(props) {
 
           <div className="form__foot">
             <button type="submit" className="btn btn--base btn--green">
-              Create
+              {!!props.account ? 'Edit' : 'Create'}
             </button>
           </div>
         </form>

@@ -14,18 +14,47 @@ function AccountsCRUD() {
   const dispatch = useDispatch();
   const [popupContent, setPopupContent] = useState(null);
 
+  /**
+   * Handles popup close.
+   */
   const onPopupClose = () => {
     setPopupContent(null);
   };
 
+  /**
+   * Opens create account popup.
+   */
   const createAccountPopup = () => {
     setPopupContent(
       <AccountsCreate onSubmit={onCreate} onClose={onPopupClose} />
     );
   };
 
-  const editAccountPopup = () => {};
+  /**
+   * Opens edit account popup.
+   *
+   * @param {Object} account
+   */
+  const editAccountPopup = (account) => {
+    setPopupContent(
+      <AccountsCreate account={account} onSubmit={onEdit} onClose={onPopupClose} />
+    );
+  };
 
+  /**
+   * Opens delete account confirmation popup.
+   *
+   * @param {Object} account
+   */
+  const deleteAccountPopup = (account) => {
+    console.log('DELETE???');
+  }
+
+  /**
+   * Handles account creation.
+   *
+   * @param {Object} account
+   */
   const onCreate = async (account) => {
     const response = await fetch(`http://localhost:5000/api/users/${id}`);
     const user = await response.json();
@@ -55,6 +84,47 @@ function AccountsCRUD() {
       });
   };
 
+  /**
+   * Handles account edit.
+   *
+   * @param {Object} account
+   */
+  const onEdit = async (account) => {
+    const response = await fetch(`http://localhost:5000/api/users/${id}`);
+    const user = await response.json();
+
+    const exists = user.accounts.find((acc) => {
+      return acc.name === account.name;
+    });
+
+    if (!exists) {
+      setPopupContent(<Popup onClose={onPopupClose}><h6 style={{color: 'red'}}>An account with this name doesn't exists.</h6></Popup>);
+      return;
+    }
+
+    const newAccounts = user.accounts.map(acc => {
+      if (acc.name === account.name) {
+        return account;
+      }
+      return acc;
+    })
+
+    user.accounts = newAccounts;
+
+    fetch(`http://localhost:5000/api/users/update/accounts/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(updateSession(user));
+        setPopupContent(null);
+      });
+  }
+
   return (
     <div className="AccountsCRUD">
       <h6>My accounts:</h6>
@@ -63,7 +133,7 @@ function AccountsCRUD() {
         {accounts.map((account, index) => {
           return (
             <li key={index}>
-              <AccountsItem account={account} />
+              <AccountsItem account={account} onEdit={editAccountPopup} onDelete={deleteAccountPopup} />
             </li>
           );
         })}

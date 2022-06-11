@@ -54,4 +54,10 @@
     font-size: 16px;
     color: $c-dark;
   }
+
+  .form__foot {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
 }
