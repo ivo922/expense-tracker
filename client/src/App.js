@@ -5,7 +5,6 @@ import Cookies from 'js-cookie';
 
 import Navbar from './components/Navbar/Navbar.js';
 import Overview from './components/Overview/Overview.js';
-import Deposit from './components/Deposit/Deposit.js';
 import Toolbar from './components/Toolbar/Toolbar.js';
 import Login from './components/Login/Login.js';
 import { updateSession } from './redux/sessionSlice.js';
@@ -47,8 +46,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Overview />} />
-
-        <Route path="/deposit" element={<Deposit />} />
       </Routes>
 
       <Navbar />

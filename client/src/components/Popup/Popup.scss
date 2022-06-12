@@ -65,4 +65,8 @@
       }
     }
   }
+
+  .Popup__content h3:first-letter {
+    text-transform: uppercase;
+  }
 }

@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../redux/sessionSlice';
-
 import Popup from '../Popup/Popup';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Deposit(props) {
+function Operation(props) {
+  // Datepicker state
   const [startDate, setStartDate] = useState(new Date());
+
+  /**
+   * Current user ID.
+   * Used for requests.
+   */
   const id = useSelector((state) => state.session.user._id);
+
+  // Current account.
   const accounts = useSelector((state) => state.session.user.accounts);
   const activeAccountIndex = useSelector(
     (state) => state.session.activeAccount
   );
   const account = accounts[activeAccountIndex];
+
+  // Dispatch hook.
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    document.title = 'Deposit';
-  });
-
+  /**
+   * Handles form submit.
+   *
+   * @param {Event} event
+   */
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,7 +39,7 @@ function Deposit(props) {
     const user = await response.json();
 
     const data = new FormData(event.target);
-    const value = data.get('value');
+    let value = data.get('value');
     const category = data.get('category');
     const date = data.get('date');
     const description = data.get('description');
@@ -39,13 +49,20 @@ function Deposit(props) {
       return acc.name === account.name;
     });
 
-    if (!findAccount && !findAccount.categories.deposit.includes(category)) {
+    if (
+      !findAccount &&
+      !findAccount.categories[props.operation].includes(category)
+    ) {
       console.log('TODO: No account');
       return;
     }
 
+    if (props.operation === 'withdrawal') {
+      value = -value;
+    }
+
     const transaction = {
-      type: 'deposit',
+      type: props.operation,
       account: findAccount.name,
       category: category,
       date: date,
@@ -86,7 +103,9 @@ function Deposit(props) {
 
   return (
     <Popup onClose={props.onClose}>
-      <h3>Deposit in {account.name}</h3>
+      <h3>
+        {props.operation} in {account.name}
+      </h3>
 
       <form className="form" onSubmit={onSubmit}>
         <div className="form__row">
@@ -119,7 +138,7 @@ function Deposit(props) {
               <option value="" disabled>
                 Select a category
               </option>
-              {account.categories.deposit.map((category, index) => {
+              {account.categories[props.operation].map((category, index) => {
                 return (
                   <option key={`${index}-${category}`} value={category}>
                     {category}
@@ -163,8 +182,10 @@ function Deposit(props) {
           <div className="form__actions">
             <input
               type="submit"
-              value="Deposit"
-              className="btn btn--base btn--green"
+              value={props.operation}
+              className={`btn btn--base ${
+                props.operation === 'deposit' ? 'btn--green' : 'btn--red'
+              }`}
             />
           </div>
         </div>
@@ -173,4 +194,4 @@ function Deposit(props) {
   );
 }
 
-export default Deposit;
+export default Operation;

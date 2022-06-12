@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Balance from '../Balance/Balance';
-import Deposit from '../Deposit/Deposit';
+import Operation from '../Operation/Operation';
 
 import './Overview.scss';
 
@@ -16,11 +16,11 @@ function Overview() {
   };
 
   const openDepositPopup = () => {
-    setPopupContent(<Deposit onClose={closePopup} />);
+    setPopupContent(<Operation operation="deposit" onClose={closePopup} />);
   };
 
   const openWithdrawalPopup = () => {
-    // setPopupContent(<Deposit onClose={closePopup} />);
+    setPopupContent(<Operation operation="withdrawal" onClose={closePopup} />);
   };
 
   const openTransferPopup = () => {
