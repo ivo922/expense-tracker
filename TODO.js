@@ -1,14 +1,10 @@
 // TODO:
 
 /**
- * * Create account
- * * Edit account popup
- *
- * * Deposit
  * * Withdrawal
  * * Transfer
+ * * History
  *
- * * Add .btn class on every button to reset it
- *
- * ? History
+ * ? Update mongo requests.
+ * ? Add _id to accounts.
  */

@@ -44,6 +44,10 @@
     background-color: transparent;
     box-shadow: 4px 4px 8px rgba(34, 38, 41, 0.2);
     text-shadow: 1px 1px 2px rgba(34, 38, 41, 0.1);
+
+    &::placeholder {
+      color: $c-lightgray;
+    }
   }
 
   .form__field-alt {

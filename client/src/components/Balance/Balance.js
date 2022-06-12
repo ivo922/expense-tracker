@@ -11,7 +11,7 @@ function Balance() {
   return (
     <div className={`Balance${balance < 0 ? ' negative' : ' positive'}`}>
       <div className="Balance__circle">
-        <h1 className="Balance__value">{balance / 100} BGN</h1>
+        <h1 className="Balance__value">{balance} BGN</h1>
       </div>
     </div>
   );

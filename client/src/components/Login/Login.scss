@@ -2,12 +2,15 @@
   Login
 \* ------------------------------------------------------------ */
 
+@import '../../css/generic/variables.scss';
+
 .Login {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  color: $c-dark;
 
   iframe {
     margin: 0 !important;

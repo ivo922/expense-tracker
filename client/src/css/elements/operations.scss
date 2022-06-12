@@ -4,13 +4,13 @@
 
 @import '../../css/generic/variables.scss';
 
-.Operations {
+.operations {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px;
 
-  a {
+  button {
     text-align: center;
     font-weight: 500;
     font-size: 16px;

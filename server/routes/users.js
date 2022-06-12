@@ -16,6 +16,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
+ * TODO
  * Get all users.
  */
 router.route('/api/users').get(function (req, res) {
@@ -30,6 +31,7 @@ router.route('/api/users').get(function (req, res) {
 });
 
 /**
+ * * DONE
  * Get user by ID.
  */
 router.route('/api/users/:id').get(function (req, res) {
@@ -42,9 +44,10 @@ router.route('/api/users/:id').get(function (req, res) {
 });
 
 /**
+ * TODO
  * Create user.
  */
-router.route('/transaction/add').post(function (req, response) {
+router.route('/transaction/create/account/:id').post(function (req, response) {
   let db_connect = dbo.getDb();
   let values = {
     name: req.body.name,
@@ -58,9 +61,10 @@ router.route('/transaction/add').post(function (req, response) {
 });
 
 /**
+ * TODO: separate update and create. Follow transactions example!
  * Update user accounts by user ID.
  */
-router.route('/api/users/update/accounts/:id').post(function (req, response) {
+router.route('/api/users/update/account/:id').post(function (req, response) {
   let db_connect = dbo.getDb();
   let query = { _id: ObjectId(req.params.id) };
   let values = {
@@ -77,16 +81,23 @@ router.route('/api/users/update/accounts/:id').post(function (req, response) {
 });
 
 /**
+ * * DONE
  * Update user transactions by user ID.
  */
 router
-  .route('/api/users/update/transactions/:id')
+  .route('/api/users/create/transaction/:id')
   .post(function (req, response) {
     let db_connect = dbo.getDb();
-    let query = { _id: ObjectId(req.params.id) };
+    let query = {
+      _id: ObjectId(req.params.id),
+      'accounts.name': req.body.newAccount.name,
+    };
     let values = {
       $set: {
-        transactions: req.body.transactions,
+        'accounts.$.balance': req.body.newAccount.balance,
+      },
+      $push: {
+        transactions: { _id: ObjectId(), ...req.body.transaction },
       },
     };
 
@@ -100,6 +111,44 @@ router
   });
 
 /**
+ * TODO: Not tested! Update accounts to use _id not name.
+ * Updates transaction by ID and updates account balance.
+ */
+router
+  .route('/api/users/update/transaction/:id')
+  .post(function (req, response) {
+    let db_connect = dbo.getDb();
+    let query = {
+      _id: ObjectId(req.params.id),
+    };
+    let values = {
+      $set: {
+        "accounts.$[account].balance": req.body.newAccount.balance,
+        "transactions.$[transaction]": req.body.transactions // Not sure if this works because of _id
+      },
+      $push: {
+        transactions: { _id: ObjectId(), ...req.body.transaction },
+      },
+    };
+
+    let filters = {
+      arrayFilters: [
+        { "account": { name: req.body.newAccount.name } },
+        { "transaction": { _id: req.body.transaction._id } },
+      ],
+    };
+
+    // db_connect
+    //   .collection('users')
+    //   .updateOne(query, values, function (err, res) {
+    //     if (err) throw err;
+    //     console.log('1 document updated');
+    //     response.json(res);
+    //   });
+  });
+
+/**
+ * TODO
  * Delete user by ID.
  */
 router.route('/:id').delete((req, response) => {
@@ -113,6 +162,7 @@ router.route('/:id').delete((req, response) => {
 });
 
 /**
+ * * DONE
  * Login/Register
  */
 router.route('/api/v1/auth/google').post(async (req, res) => {

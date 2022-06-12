@@ -102,7 +102,7 @@ function AccountsCRUD() {
 
     user.accounts.push(account);
 
-    fetch(`http://localhost:5000/api/users/update/accounts/${id}`, {
+    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ function AccountsCRUD() {
 
     user.accounts = newAccounts;
 
-    fetch(`http://localhost:5000/api/users/update/accounts/${id}`, {
+    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ function AccountsCRUD() {
 
     user.accounts = newAccounts;
 
-    fetch(`http://localhost:5000/api/users/update/accounts/${id}`, {
+    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
