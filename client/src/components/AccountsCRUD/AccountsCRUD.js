@@ -37,7 +37,11 @@ function AccountsCRUD() {
    */
   const editAccountPopup = (account) => {
     setPopupContent(
-      <AccountsCreate account={account} onSubmit={onEdit} onClose={onPopupClose} />
+      <AccountsCreate
+        account={account}
+        onSubmit={onEdit}
+        onClose={onPopupClose}
+      />
     );
   };
 
@@ -47,8 +51,30 @@ function AccountsCRUD() {
    * @param {Object} account
    */
   const deleteAccountPopup = (account) => {
-    console.log('DELETE???');
-  }
+    setPopupContent(
+      <Popup onClose={onPopupClose}>
+        <h6 style={{ color: 'red' }}>
+          Are you sure you want to delete{' '}
+          <span style={{ color: 'black' }}>{account.name}</span>?
+        </h6>
+
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <button
+            className="btn btn--base btn--red"
+            onClick={() => {
+              onDelete(account);
+            }}
+          >
+            Delete
+          </button>
+
+          <button className="btn btn--base btn--green" onClick={onPopupClose}>
+            Cancel
+          </button>
+        </div>
+      </Popup>
+    );
+  };
 
   /**
    * Handles account creation.
@@ -64,7 +90,13 @@ function AccountsCRUD() {
     });
 
     if (!!exists) {
-      setPopupContent(<Popup onClose={onPopupClose}><h6 style={{color: 'red'}}>An account with this name already exists.</h6></Popup>);
+      setPopupContent(
+        <Popup onClose={onPopupClose}>
+          <h6 style={{ color: 'red' }}>
+            An account with this name already exists.
+          </h6>
+        </Popup>
+      );
       return;
     }
 
@@ -98,16 +130,22 @@ function AccountsCRUD() {
     });
 
     if (!exists) {
-      setPopupContent(<Popup onClose={onPopupClose}><h6 style={{color: 'red'}}>An account with this name doesn't exists.</h6></Popup>);
+      setPopupContent(
+        <Popup onClose={onPopupClose}>
+          <h6 style={{ color: 'red' }}>
+            An account with this name doesn't exists.
+          </h6>
+        </Popup>
+      );
       return;
     }
 
-    const newAccounts = user.accounts.map(acc => {
+    const newAccounts = user.accounts.map((acc) => {
       if (acc.name === account.name) {
         return account;
       }
       return acc;
-    })
+    });
 
     user.accounts = newAccounts;
 
@@ -123,7 +161,51 @@ function AccountsCRUD() {
         dispatch(updateSession(user));
         setPopupContent(null);
       });
-  }
+  };
+
+  /**
+   * Handles account delete.
+   *
+   * @param {Object} account
+   */
+  const onDelete = async (account) => {
+    const response = await fetch(`http://localhost:5000/api/users/${id}`);
+    const user = await response.json();
+
+    const exists = user.accounts.find((acc) => {
+      return acc.name === account.name;
+    });
+
+    if (!exists) {
+      setPopupContent(
+        <Popup onClose={onPopupClose}>
+          <h6 style={{ color: 'red' }}>
+            The account you wish to delete doesn't exists.
+          </h6>
+        </Popup>
+      );
+      return;
+    }
+
+    const newAccounts = user.accounts.filter((acc) => {
+      return acc.name !== account.name;
+    });
+
+    user.accounts = newAccounts;
+
+    fetch(`http://localhost:5000/api/users/update/accounts/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(updateSession(user));
+        setPopupContent(null);
+      });
+  };
 
   return (
     <div className="AccountsCRUD">
@@ -133,7 +215,11 @@ function AccountsCRUD() {
         {accounts.map((account, index) => {
           return (
             <li key={index}>
-              <AccountsItem account={account} onEdit={editAccountPopup} onDelete={deleteAccountPopup} />
+              <AccountsItem
+                account={account}
+                onEdit={editAccountPopup}
+                onDelete={deleteAccountPopup}
+              />
             </li>
           );
         })}
