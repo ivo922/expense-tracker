@@ -57,7 +57,7 @@ function Operation(props) {
       return;
     }
 
-    if (props.operation === 'withdrawal') {
+    if (props.operation === 'expense') {
       value = -value;
     }
 
@@ -184,7 +184,7 @@ function Operation(props) {
               type="submit"
               value={props.operation}
               className={`btn btn--base ${
-                props.operation === 'deposit' ? 'btn--green' : 'btn--red'
+                props.operation === 'income' ? 'btn--green' : 'btn--red'
               }`}
             />
           </div>

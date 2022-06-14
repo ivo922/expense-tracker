@@ -7,15 +7,15 @@
       "name": "General",
       "balance": "0",
       "categories": {
-        "deposit": ["Salary", "Loan"],
-        "withdrawal": ["Food", "Entertainment", "Car", "Health", "Education", "Clothing"]
+        "income": ["Salary", "Loan"],
+        "expense": ["Food", "Entertainment", "Car", "Health", "Education", "Clothing"]
       }
     }
   ],
   "transactions": [
     {
       "date": "01-05-2022",
-      "type": "deposit",
+      "type": "income",
       "amount": "100",
       "account": "Savings",
       "category": "Salary",

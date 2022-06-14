@@ -1,14 +1,16 @@
 import { React, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateSession } from './redux/sessionSlice.js';
+
 import Cookies from 'js-cookie';
 
 import Navbar from './components/Navbar/Navbar.js';
 import Overview from './components/Overview/Overview.js';
 import Toolbar from './components/Toolbar/Toolbar.js';
 import Login from './components/Login/Login.js';
-import { updateSession } from './redux/sessionSlice.js';
 import Sidebar from './components/Sidebar/Sidebar.js';
+import History from './components/History/History.js';
 
 function App() {
   const user = useSelector((state) => state.session.user);
@@ -46,6 +48,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Overview />} />
+
+        <Route path="/history" element={<History />} />
       </Routes>
 
       <Navbar />

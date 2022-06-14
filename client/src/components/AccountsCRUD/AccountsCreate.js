@@ -9,8 +9,8 @@ function AccountsCreate(props) {
     !!props.account
       ? props.account.categories
       : {
-        deposit: ['General'],
-        withdrawal: ['General'],
+        income: ['General'],
+        expense: ['General'],
       }
   );
 
@@ -19,7 +19,7 @@ function AccountsCreate(props) {
   /**
    * Add a category.
    *
-   * @param {String} type - 'deposit' or 'withdrawal'
+   * @param {String} type - 'income' or 'expense'
    */
   const onAdd = (type) => {
     // Copy state to prevent conflicts.
@@ -38,7 +38,7 @@ function AccountsCreate(props) {
   /**
    * Remove a category.
    *
-   * @param {String} type - 'deposit' or 'withdrawal'
+   * @param {String} type - 'income' or 'expense'
    * @param {Number} index
    */
   const onRemove = (type, index) => {
@@ -57,15 +57,15 @@ function AccountsCreate(props) {
   const onSubmit = (event) => {
     event.preventDefault();
     const newName = new FormData(event.target).get('name');
-    const deposit = new FormData(event.target).getAll('deposit');
-    const withdrawal = new FormData(event.target).getAll('withdrawal');
+    const income = new FormData(event.target).getAll('income');
+    const expense = new FormData(event.target).getAll('expense');
 
     const newAccount = {
       name: newName,
       balance: 0,
       categories: {
-        deposit,
-        withdrawal,
+        income,
+        expense,
       },
     };
 
@@ -127,24 +127,24 @@ function AccountsCreate(props) {
 
             <div className="AccountsCategories">
               <div className="AccountsCategories__head">
-                <h6>Deposit categories</h6>
+                <h6>Income categories</h6>
               </div>
 
               <ul>
-                {categories.deposit.map((item, index) => {
+                {categories.income.map((item, index) => {
                   return (
                     <li key={`${item}-${index}`}>
                       <input
-                        name="deposit"
+                        name="income"
                         className="form__field-alt"
                         defaultValue={item}
                         required
                       />
 
-                      {categories.deposit.length > 1 && (
+                      {categories.income.length > 1 && (
                         <span
                           onClick={() => {
-                            onRemove('deposit', index);
+                            onRemove('income', index);
                           }}
                         >
                           <Icon icon="delete" />
@@ -154,10 +154,10 @@ function AccountsCreate(props) {
                   );
                 })}
 
-                {categories.deposit.length < 10 && (
+                {categories.income.length < 10 && (
                   <li
                     onClick={() => {
-                      onAdd('deposit');
+                      onAdd('income');
                     }}
                   >
                     + Add category
@@ -168,24 +168,24 @@ function AccountsCreate(props) {
 
             <div className="AccountsCategories">
               <div className="AccountsCategories__head">
-                <h6>Withdrawal categories</h6>
+                <h6>Expense categories</h6>
               </div>
 
               <ul>
-                {categories.withdrawal.map((item, index) => {
+                {categories.expense.map((item, index) => {
                   return (
                     <li key={`${item}-${index}`}>
                       <input
-                        name="withdrawal"
+                        name="expense"
                         className="form__field-alt"
                         defaultValue={item}
                         required
                       />
 
-                      {categories.withdrawal.length > 1 && (
+                      {categories.expense.length > 1 && (
                         <span
                           onClick={() => {
-                            onRemove('withdrawal', index);
+                            onRemove('expense', index);
                           }}
                         >
                           <Icon icon="delete" />
@@ -195,10 +195,10 @@ function AccountsCreate(props) {
                   );
                 })}
 
-                {categories.withdrawal.length < 10 && (
+                {categories.expense.length < 10 && (
                   <li
                     onClick={() => {
-                      onAdd('withdrawal');
+                      onAdd('expense');
                     }}
                   >
                     + Add category

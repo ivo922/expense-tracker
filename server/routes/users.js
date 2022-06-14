@@ -16,7 +16,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
- * TODO
+ * ! Not needed.
  * Get all users.
  */
 router.route('/api/users').get(function (req, res) {
@@ -44,7 +44,7 @@ router.route('/api/users/:id').get(function (req, res) {
 });
 
 /**
- * TODO
+ * TODO: Might not be needed.
  * Create user.
  */
 router.route('/transaction/create/account/:id').post(function (req, response) {
@@ -192,10 +192,10 @@ router.route('/api/v1/auth/google').post(async (req, res) => {
         accounts: [
           {
             name: 'General',
-            balance: '0',
+            balance: 0,
             categories: {
-              deposit: ['Salary', 'Loan', 'Other'],
-              withdrawal: [
+              income: ['Salary', 'Loan', 'Other'],
+              expense: [
                 'Food',
                 'Entertainment',
                 'Car',

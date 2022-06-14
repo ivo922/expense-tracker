@@ -15,16 +15,16 @@ function Overview() {
     setPopupContent(null);
   };
 
-  const openDepositPopup = () => {
-    setPopupContent(<Operation operation="deposit" onClose={closePopup} />);
+  const openIncomePopup = () => {
+    setPopupContent(<Operation operation="income" onClose={closePopup} />);
   };
 
-  const openWithdrawalPopup = () => {
-    setPopupContent(<Operation operation="withdrawal" onClose={closePopup} />);
+  const openExpensePopup = () => {
+    setPopupContent(<Operation operation="expense" onClose={closePopup} />);
   };
 
   const openTransferPopup = () => {
-    // setPopupContent(<Deposit onClose={closePopup} />);
+    // setPopupContent(<Income onClose={closePopup} />);
   };
 
   return (
@@ -32,11 +32,11 @@ function Overview() {
       <Balance />
 
       <div className="operations">
-        <button onClick={openDepositPopup}>Deposit</button>
+        <button onClick={openIncomePopup}>Income</button>
 
-        <button onClick={openWithdrawalPopup}>Withdrawal</button>
+        <button onClick={openExpensePopup}>Expense</button>
 
-        <button onClick={openTransferPopup}>Transfer</button>
+        {/* <button onClick={openTransferPopup}>Transfer</button> */}
       </div>
 
       {popupContent}

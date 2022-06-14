@@ -1,7 +1,6 @@
 // TODO:
 
 /**
- * * Withdrawal
  * * Transfer
  * * History
  *
