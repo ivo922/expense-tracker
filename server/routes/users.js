@@ -82,7 +82,7 @@ router.route('/api/users/update/account/:id').post(function (req, response) {
 
 /**
  * * DONE
- * Update user transactions by user ID.
+ * Create user transactions by user ID.
  */
 router
   .route('/api/users/create/transaction/:id')
