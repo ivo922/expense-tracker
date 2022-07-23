@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { setActiveAccount } from '../../redux/sessionSlice';
 
 import './AccountsDropdown.scss';
@@ -11,7 +10,6 @@ function AccountsDropdown() {
   const current = accounts[activeAccount];
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   return (
     <div className="AccountsDropdown">
@@ -33,7 +31,6 @@ function AccountsDropdown() {
               onClick={() => {
                 dispatch(setActiveAccount(index));
                 setActive(false);
-                navigate('/');
               }}
             >{`${account.name} - ${account.balance / 100} BGN`}</li>
           );

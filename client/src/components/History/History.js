@@ -1,27 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import './History.scss';
+import HistoryEdit from './HistoryEdit';
+import HistoryEntry from './HistoryEntry';
 
 function History() {
   const accounts = useSelector((state) => state.session.user.accounts);
   const activeAccount = useSelector((state) => state.session.activeAccount);
   const current = accounts[activeAccount];
-  const allTransactions = useSelector((state) => state.session.user.transactions);
+  const allTransactions = useSelector(
+    (state) => state.session.user.transactions
+  );
+  const [popupContent, setPopupContent] = useState(null);
 
-  const transactions = allTransactions.filter(t => {
+  const transactions = allTransactions.filter((t) => {
     return t.account === current.name;
-  })
+  });
 
   const isEmpty = transactions.length === 0;
 
-  return <div className="History">
-    {isEmpty && <h4>You haven't made any transactions yet.</h4>}
+  /**
+   * Opens edit transaction popup.
+   */
+  const editTransactionPopup = (data) => {
+    setPopupContent(
+      <HistoryEdit data={data} onClose={onPopupClose} onSubmit={onEdit} />
+    );
+  };
 
-    {!isEmpty && transactions.map(transaction => {
-      return <div>{transaction.value} {transaction.category}</div>
-    })}
-  </div>;
+  /**
+   * Handles edit popup submit.
+   *
+   * @returns {Void}
+   */
+  const onEdit = () => {
+    return;
+  };
+
+  /**
+   * Handles popup close.
+   */
+  const onPopupClose = () => {
+    setPopupContent(null);
+  };
+
+  return (
+    <div className="History">
+      {isEmpty && <h4>You haven't made any transactions yet.</h4>}
+
+      {!isEmpty &&
+        transactions.map((transaction) => {
+          return (
+            <HistoryEntry
+              key={transaction._id}
+              data={transaction}
+              onClick={editTransactionPopup}
+            />
+          );
+        })}
+
+      {popupContent}
+    </div>
+  );
 }
 
 export default History;
