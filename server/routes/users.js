@@ -19,21 +19,32 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
  * Get user by ID.
+ * TODO: test delete
  */
-router.route('/api/users/:id').get(function (req, res) {
-  let db_connect = dbo.getDb();
-  let query = { _id: ObjectId(req.params.id) };
-  db_connect.collection('users').findOne(query, function (err, result) {
-    if (err) throw err;
-    res.json(result);
+router.route('/api/users/:id')
+  .get(function (req, res) {
+    let db_connect = dbo.getDb();
+    let query = { _id: ObjectId(req.params.id) };
+    db_connect.collection('users').findOne(query, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  })
+  .delete((req, response) => {
+    let db_connect = dbo.getDb();
+    let query = { _id: ObjectId(req.params.id) };
+    db_connect.collection('users').deleteOne(query, function (err, obj) {
+      if (err) throw err;
+      console.log('1 document deleted');
+      response.json(obj);
+    });
   });
-});
 
 /**
  * Create user account.
+ * TODO: test get
  */
 router.route('/api/users/:id/accounts')
-  // TODO: test get
   .get(function (req, res) {
     let db_connect = dbo.getDb();
     let query = {
@@ -82,7 +93,7 @@ router.route('/api/users/:id/accounts/:accountId')
 
     db_connect.collection('users').findOne(query, function (err, result) {
       if (err) throw err;
-      res.json(result);
+      response.json(result);
     });
   })
   .put(function (req, response) {
@@ -109,7 +120,7 @@ router.route('/api/users/:id/accounts/:accountId')
       throw error;
     }
   })
-  .delete(async function (req, response) {
+  .delete(async (req, response) => {
     const db_connect = dbo.getDb();
     const users = db_connect.collection('users');
 
@@ -207,19 +218,6 @@ router
     //     response.json(res);
     //   });
   });
-
-/**
- * Delete user by ID.
- */
-router.route('/:id').delete((req, response) => {
-  let db_connect = dbo.getDb();
-  let query = { _id: ObjectId(req.params.id) };
-  db_connect.collection('users').deleteOne(query, function (err, obj) {
-    if (err) throw err;
-    console.log('1 document deleted');
-    response.json(obj);
-  });
-});
 
 /**
  * Login/Register
