@@ -1,8 +1,10 @@
 const express = require('express');
 
-// router is an instance of the express router.
-// We use it to define our routes.
-// The router will be added as a middleware and will take control of requests.
+/**
+ * router is an instance of the express router.
+ * We use it to define our routes.
+ * The router will be added as a middleware and will take control of requests.
+ */
 const router = express.Router();
 
 // This will help us connect to the database
@@ -16,22 +18,6 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
- * ! Not needed.
- * Get all users.
- */
-router.route('/api/users').get(function (req, res) {
-  let db_connect = dbo.getDb();
-  db_connect
-    .collection('users')
-    .find({})
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.json(result);
-    });
-});
-
-/**
- * * DONE
  * Get user by ID.
  */
 router.route('/api/users/:id').get(function (req, res) {
@@ -44,44 +30,117 @@ router.route('/api/users/:id').get(function (req, res) {
 });
 
 /**
- * TODO: Might not be needed.
- * Create user.
+ * Create user account.
  */
-router.route('/transaction/create/account/:id').post(function (req, response) {
-  let db_connect = dbo.getDb();
-  let values = {
-    name: req.body.name,
-    position: req.body.position,
-    level: req.body.level,
-  };
-  db_connect.collection('users').insertOne(values, function (err, res) {
-    if (err) throw err;
-    response.json(res);
+router.route('/api/users/:id/accounts')
+  // TODO: test get
+  .get(function (req, res) {
+    let db_connect = dbo.getDb();
+    let query = {
+      _id: ObjectId(req.params.id),
+      projection: { accounts: 1 },
+    };
+
+    db_connect.collection('users').findOne(query, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  })
+  .post(function (req, response) {
+    let db_connect = dbo.getDb();
+    let query = { _id: ObjectId(req.params.id) };
+    let values = {
+      $push: {
+        accounts: { _id: ObjectId(), ...req.body.account },
+      },
+    };
+
+    // Update user by adding a new account.
+    db_connect.collection('users').updateOne(query, values, function (err, res) {
+      if (err) throw err;
+      console.log('1 document updated');
+    });
+
+    // Get updated user.
+    db_connect.collection('users').findOne(query, function (err, result) {
+      if (err) throw err;
+      response.json(result);
+    });
   });
-});
 
 /**
- * TODO: separate update and create. Follow transactions example!
- * Update user accounts by user ID.
+ * User account.
+ * TODO: test get and put
  */
-router.route('/api/users/update/account/:id').post(function (req, response) {
-  let db_connect = dbo.getDb();
-  let query = { _id: ObjectId(req.params.id) };
-  let values = {
-    $set: {
-      accounts: req.body.accounts,
-    },
-  };
+router.route('/api/users/:id/accounts/:accountId')
+  .get(function (req, response) {
+    let db_connect = dbo.getDb();
+    let query = {
+      _id: ObjectId(req.params.id),
+      'accounts._id': ObjectId(req.params.accountId),
+    };
 
-  db_connect.collection('users').updateOne(query, values, function (err, res) {
-    if (err) throw err;
-    console.log('1 document updated');
-    response.json(res);
+    db_connect.collection('users').findOne(query, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  })
+  .put(function (req, response) {
+    const db_connect = dbo.getDb();
+    const users = db_connect.collection('users');
+
+    const query = {
+      _id: ObjectId(req.params.id),
+      'accounts._id': ObjectId(req.params.accountId),
+    };
+    const values = {
+      $set: {
+        'accounts.$': req.body.account,
+      },
+    };
+
+    try {
+      users.updateOne(query, values, function (err, res) {
+        if (err) throw err;
+        console.log('1 document updated');
+        response.json(res);
+      });
+    } catch (error) {
+      throw error;
+    }
+  })
+  .delete(async function (req, response) {
+    const db_connect = dbo.getDb();
+    const users = db_connect.collection('users');
+
+    const accountQuery = {
+      _id: ObjectId(req.params.id),
+      'accounts._id': ObjectId(req.params.accountId),
+    };
+    const userQuery = {
+      _id: ObjectId(req.params.id),
+    }
+    const options = {
+      $pull: {
+        accounts: { _id: ObjectId(req.params.accountId) }
+      }
+    }
+
+    try {
+      // Delete account from user.
+      await users.updateOne(accountQuery, options);
+
+      // Get updated user.
+      const result = await users.findOne(userQuery);
+
+      response.json(result);
+    } catch (error) {
+      throw err;
+    }
   });
-});
 
 /**
- * * DONE
+ * TODO:
  * Create user transactions by user ID.
  */
 router
@@ -111,7 +170,7 @@ router
   });
 
 /**
- * TODO: Not tested! Update accounts to use _id not name.
+ * TODO:
  * Updates transaction by ID and updates account balance.
  */
 router
@@ -138,6 +197,8 @@ router
       ],
     };
 
+    console.log(query, values, filters);
+
     // db_connect
     //   .collection('users')
     //   .updateOne(query, values, function (err, res) {
@@ -148,7 +209,6 @@ router
   });
 
 /**
- * TODO
  * Delete user by ID.
  */
 router.route('/:id').delete((req, response) => {
@@ -162,7 +222,6 @@ router.route('/:id').delete((req, response) => {
 });
 
 /**
- * * DONE
  * Login/Register
  */
 router.route('/api/v1/auth/google').post(async (req, res) => {
@@ -191,6 +250,7 @@ router.route('/api/v1/auth/google').post(async (req, res) => {
         picture,
         accounts: [
           {
+            _id: ObjectId(),
             name: 'General',
             balance: 0,
             categories: {
