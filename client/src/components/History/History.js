@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import OperationEdit from '../Operation/OperationEdit';
 
 import './History.scss';
-import HistoryEdit from './HistoryEdit';
 import HistoryEntry from './HistoryEntry';
 
 function History() {
@@ -25,7 +25,7 @@ function History() {
    */
   const editTransactionPopup = (data) => {
     setPopupContent(
-      <HistoryEdit data={data} onClose={onPopupClose} onSubmit={onEdit} />
+      <OperationEdit operation={data.type} onClose={onPopupClose} initialData={data} />
     );
   };
 
@@ -50,7 +50,7 @@ function History() {
       {isEmpty && <h4>You haven't made any transactions yet.</h4>}
 
       {!isEmpty &&
-        transactions.map((transaction) => {
+        transactions.reverse().map((transaction) => {
           return (
             <HistoryEntry
               key={transaction._id}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../redux/sessionSlice';
 import Popup from '../Popup/Popup';
@@ -7,9 +7,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Operation(props) {
+function OperationEdit({ operation, onClose, initialData }) {
   // Datepicker state
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(
+    !!initialData?.fullDate
+      ? new Date(initialData?.fullDate)
+      : new Date());
 
   /**
    * Current user ID.
@@ -37,12 +40,11 @@ function Operation(props) {
 
     const response = await fetch(`http://localhost:5000/api/users/${id}`);
     const user = await response.json();
-
     const data = new FormData(event.target);
-    let value = data.get('value');
     const category = data.get('category');
     const date = data.get('date');
     const description = data.get('description');
+    let value = data.get('value');
 
     // Sync DB account with state account in case changes were made from another client.
     const findAccount = user.accounts.find((acc) => {
@@ -51,32 +53,35 @@ function Operation(props) {
 
     if (
       !findAccount &&
-      !findAccount.categories[props.operation].includes(category)
+      !findAccount.categories[operation].includes(category)
     ) {
       console.log('TODO: No account');
       return;
     }
 
-    if (props.operation === 'expense') {
+    if (operation === 'expense') {
       value = -value;
     }
 
     const transaction = {
-      type: props.operation,
+      date,
+      value,
+      description,
+      category,
+      type: operation,
       account: findAccount.name,
-      category: category,
-      date: date,
       fullDate: startDate.toString(),
-      value: value,
-      description: description,
     };
 
     const newAccount = {
-      name: findAccount.name,
+      name: findAccount._id,
       balance: +findAccount.balance + +value,
     };
 
-    fetch(`http://localhost:5000/api/users/create/transaction/${id}`, {
+    console.log(newAccount);
+    console.log(transaction);
+
+    fetch(`http://localhost:5000/api/users/update/transaction/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -97,14 +102,17 @@ function Operation(props) {
         user.transactions.push(transaction);
 
         dispatch(updateSession(user));
-        props.onClose();
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
   return (
-    <Popup onClose={props.onClose}>
+    <Popup onClose={onClose}>
       <h3>
-        {props.operation} in {account.name}
+        {operation} in {account.name}
       </h3>
 
       <form className="form" onSubmit={onSubmit}>
@@ -115,7 +123,7 @@ function Operation(props) {
             <input
               name="value"
               type="number"
-              defaultValue=""
+              defaultValue={Math.abs(initialData?.value) || ''}
               id="value"
               className="form__field"
               min="0"
@@ -132,13 +140,13 @@ function Operation(props) {
               name="category"
               id="category"
               className="form__field"
-              defaultValue={''}
+              defaultValue={initialData?.category || ''}
               required
             >
               <option value="" disabled>
                 Select a category
               </option>
-              {account.categories[props.operation].map((category, index) => {
+              {account.categories[operation].map((category, index) => {
                 return (
                   <option key={`${index}-${category}`} value={category}>
                     {category}
@@ -170,6 +178,7 @@ function Operation(props) {
 
             <input
               name="description"
+              defaultValue={initialData?.description || ''}
               placeholder="E.g. Food, Car, Clothes, etc."
               id="description"
               className="form__field"
@@ -182,9 +191,9 @@ function Operation(props) {
           <div className="form__actions">
             <input
               type="submit"
-              value={props.operation}
+              value={operation}
               className={`btn btn--base ${
-                props.operation === 'income' ? 'btn--green' : 'btn--red'
+                operation === 'income' ? 'btn--green' : 'btn--red'
               }`}
             />
           </div>
@@ -194,4 +203,4 @@ function Operation(props) {
   );
 }
 
-export default Operation;
+export default OperationEdit;

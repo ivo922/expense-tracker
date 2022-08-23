@@ -82,35 +82,15 @@ function AccountsCRUD() {
    * @param {Object} account
    */
   const onCreate = async (account) => {
-    const response = await fetch(`http://localhost:5000/api/users/${id}`);
-    const user = await response.json();
-
-    const exists = user.accounts.find((acc) => {
-      return acc.name === account.name;
-    });
-
-    if (!!exists) {
-      setPopupContent(
-        <Popup onClose={onPopupClose}>
-          <h6 style={{ color: 'red' }}>
-            An account with this name already exists.
-          </h6>
-        </Popup>
-      );
-      return;
-    }
-
-    user.accounts.push(account);
-
-    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
+    fetch(`http://localhost:5000/api/users/${id}/accounts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ account }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((user) => {
         dispatch(updateSession(user));
         setPopupContent(null);
       });
@@ -125,39 +105,16 @@ function AccountsCRUD() {
     const response = await fetch(`http://localhost:5000/api/users/${id}`);
     const user = await response.json();
 
-    const exists = user.accounts.find((acc) => {
-      return acc.name === account.name;
-    });
-
-    if (!exists) {
-      setPopupContent(
-        <Popup onClose={onPopupClose}>
-          <h6 style={{ color: 'red' }}>
-            An account with this name doesn't exists.
-          </h6>
-        </Popup>
-      );
-      return;
-    }
-
-    const newAccounts = user.accounts.map((acc) => {
-      if (acc.name === account.name) {
-        return account;
-      }
-      return acc;
-    });
-
-    user.accounts = newAccounts;
-
-    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
+    fetch(`http://localhost:5000/api/users/${id}/accounts/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(account),
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         dispatch(updateSession(user));
         setPopupContent(null);
       });
@@ -169,39 +126,14 @@ function AccountsCRUD() {
    * @param {Object} account
    */
   const onDelete = async (account) => {
-    const response = await fetch(`http://localhost:5000/api/users/${id}`);
-    const user = await response.json();
-
-    const exists = user.accounts.find((acc) => {
-      return acc.name === account.name;
-    });
-
-    if (!exists) {
-      setPopupContent(
-        <Popup onClose={onPopupClose}>
-          <h6 style={{ color: 'red' }}>
-            The account you wish to delete doesn't exists.
-          </h6>
-        </Popup>
-      );
-      return;
-    }
-
-    const newAccounts = user.accounts.filter((acc) => {
-      return acc.name !== account.name;
-    });
-
-    user.accounts = newAccounts;
-
-    fetch(`http://localhost:5000/api/users/update/account/${id}`, {
-      method: 'POST',
+    fetch(`http://localhost:5000/api/users/${id}/accounts/${account._id}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((user) => {
         dispatch(updateSession(user));
         setPopupContent(null);
       });
