@@ -1,0 +1,26 @@
+/* ------------------------------------------------------------ *\
+  Login
+\* ------------------------------------------------------------ */
+
+@import '../generic/variables.scss';
+
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $c-dark;
+
+  iframe {
+    margin: 0 !important;
+  }
+
+  .login__title {
+    margin-bottom: 15px;
+  }
+
+  .login__inner {
+    padding: 0 10px;
+  }
+}

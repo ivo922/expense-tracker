@@ -1,0 +1,43 @@
+/* ------------------------------------------------------------ *\
+  Variables
+\* ------------------------------------------------------------ */
+
+$font-family-roboto: 'Roboto', sans-serif;
+$font-weight-base: 400;
+
+$font-size-base: 14px;
+$line-height-base: 1.5;
+$letter-spacing-base: 0.02em;
+
+$shell-max-width: 1200px;
+$shell-gutter: 15px;
+
+$t-duration: 0.3s;
+
+$responsive-xxs: 480px;
+$responsive-xs: 767px;
+$responsive-sm-landscape: 812px;
+$responsive-sm: 1023px;
+$responsive-md: 1200px;
+$responsive-lg: 1600px;
+
+$mobile-small: '(max-width: #{$responsive-xxs}) ';
+$mobile: '(max-width: #{$responsive-xs}), screen and (max-width: #{$responsive-sm-landscape}) and (orientation: landscape) ';
+$tablet-portrait: '(max-width: #{$responsive-sm}) ';
+$small-desktop: '(max-width: #{$responsive-md}) ';
+$large-desktop: '(max-width: #{$responsive-lg}) ';
+$retina: '(min-resolution: 2dppx) ';
+
+// Usage
+// @media #{$small-desktop}
+
+/*  Colors  */
+
+$c-dark:       #222629;
+$c-gray:       #474b4f;
+$c-lightgray:  #6b6e70;
+$c-green:      #61892f;
+$c-lightgreen: #86c232;
+$c-darkgreen:  #4a7817;
+$c-white:      #f2f2f2;
+$c-red:        #af0c0c;
