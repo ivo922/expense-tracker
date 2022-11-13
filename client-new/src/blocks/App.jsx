@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-// import Navbar from './components/Navbar/Navbar.js';
 // import Overview from './components/Overview/Overview.js';
 // import Toolbar from './components/Toolbar/Toolbar.js';
 // import Login from './components/Login/Login.js';
@@ -15,7 +14,11 @@ import Login from './login';
 
 // Components
 import { useUserContext } from '../components/user/use-user-context';
+import { PopupProvider } from '../components/popup/use-popup-context';
 import Navbar from '../components/navbar/navbar';
+
+// Views
+import Overview from '../views/overview';
 
 function App() {
   const { user, updateUser } = useUserContext();
@@ -50,16 +53,18 @@ function App() {
 
   return (
     <div className="wrapper">
-      {/* <Toolbar />
-      <Sidebar />
+      <PopupProvider>
+        {/* <Toolbar />
+      <Sidebar /> */}
 
-      <Routes>
-        <Route path="/" element={<Overview />} />
+        <Routes>
+          <Route path="*" element={<Overview />} />
 
-        <Route path="/history" element={<History />} />
-      </Routes> */}
+          {/* <Route path="/history" element={<History />} /> */}
+        </Routes>
 
-      <Navbar />
+        <Navbar />
+      </PopupProvider>
     </div>
   );
 }

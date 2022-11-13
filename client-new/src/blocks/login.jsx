@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import Cookies from 'js-cookie';
 
@@ -7,7 +7,9 @@ import { useUserContext } from '../components/user/use-user-context';
 import '../assets/scss/components/login.scss';
 
 const Login = () => {
-  document.title = 'Sign In';
+  useEffect(() => {
+    document.title = 'Sign In';
+  }, []);
 
   const { updateUser } = useUserContext();
 
