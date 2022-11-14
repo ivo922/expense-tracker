@@ -1,0 +1,53 @@
+/* ------------------------------------------------------------ *\
+  Accounts-dropdown
+\* ------------------------------------------------------------ */
+
+@import '../../scss/generic/variables.scss';
+
+.accounts-dropdown {
+  position: relative;
+  padding: 7px;
+  background-color: $c-darkgreen;
+  box-shadow: 1px 1px 2px rgba($c-dark, 0.2);
+  color: $c-white;
+
+  span {
+    position: relative;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      vertical-align: middle;
+      margin-left: 4px;
+      border-bottom: solid 0 transparent;
+      border-top: solid 6px currentColor;
+      border-left: solid 4px transparent;
+      border-right: solid 4px transparent;
+    }
+  }
+
+  ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: $c-darkgreen;
+    box-shadow: 2px 2px 4px rgba($c-dark, 0.2);
+    z-index: 5;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  li {
+    padding: 10px 7px;
+    white-space: nowrap;
+
+    &.current {
+      background-color: rgba($c-dark, 0.5);
+    }
+  }
+}

@@ -23,7 +23,7 @@ function Overview() {
     // open(<OperationCreate operation="expense" />);
   };
 
-  // const openTransferPopup = () => {};
+  const openTransferPopup = () => {};
 
   return (
     <div className="Overview">
@@ -34,7 +34,7 @@ function Overview() {
 
         <button onClick={openExpensePopup}>Expense</button>
 
-        {/* <button onClick={openTransferPopup}>Transfer</button> */}
+        <button onClick={openTransferPopup}>Transfer</button>
       </div>
     </div>
   );

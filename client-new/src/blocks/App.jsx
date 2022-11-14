@@ -3,19 +3,16 @@ import { Routes, Route } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-// import Overview from './components/Overview/Overview.js';
-// import Toolbar from './components/Toolbar/Toolbar.js';
-// import Login from './components/Login/Login.js';
-// import Sidebar from './components/Sidebar/Sidebar.js';
-// import History from './components/History/History.js';
-
 // Blocks
 import Login from './login';
 
 // Components
 import { useUserContext } from '../components/user/use-user-context';
 import { PopupProvider } from '../components/popup/use-popup-context';
+import { SidebarProvider } from '../components/sidebar/use-sidebar-context';
 import Navbar from '../components/navbar/navbar';
+import Toolbar from '../components/toolbar/toolbar';
+import Sidebar from '../components/sidebar/sidebar';
 
 // Views
 import Overview from '../views/overview';
@@ -54,8 +51,10 @@ function App() {
   return (
     <div className="wrapper">
       <PopupProvider>
-        {/* <Toolbar />
-      <Sidebar /> */}
+        <SidebarProvider>
+          <Toolbar />
+          <Sidebar />
+        </SidebarProvider>
 
         <Routes>
           <Route path="*" element={<Overview />} />
