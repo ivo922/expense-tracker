@@ -11,7 +11,7 @@ const Login = () => {
     document.title = 'Sign In';
   }, []);
 
-  const { updateUser } = useUserContext();
+  const { setUser } = useUserContext();
 
   const responseGoogle = async (googleData) => {
     const res = await fetch('http://localhost:5000/api/v1/auth/google', {
@@ -26,7 +26,7 @@ const Login = () => {
 
     if (res.status === 200 || res.status === 201) {
       const user = await res.json();
-      updateUser(user);
+      setUser(user);
       Cookies.set('session', user._id, { expires: 1 });
     }
   };

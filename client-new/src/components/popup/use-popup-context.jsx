@@ -7,9 +7,8 @@ export const PopupProvider = ({ children }) => {
 
   return (
     <PopupContext.Provider value={{ popup, open: setPopup }}>
-      { children }
-
-      { popup }
+      {children}
+      {popup}
     </PopupContext.Provider>
   );
 };

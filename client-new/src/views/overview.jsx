@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+
+// Components
+import Balance from '../components/balance/balance';
 import { usePopupContext } from '../components/popup/use-popup-context';
-// import Balance from '../Balance/Balance';
 // import OperationCreate from '../Operation/OperationCreate';
 
+// Styles
 import '../assets/scss/components/overview.scss';
 
 function Overview() {
-  const { popup, open } = usePopupContext();
+  const { open } = usePopupContext();
 
   useEffect(() => {
     document.title = 'Overview';
@@ -24,7 +27,7 @@ function Overview() {
 
   return (
     <div className="Overview">
-      {/* <Balance /> */}
+      <Balance />
 
       <div className="operations">
         <button onClick={openIncomePopup}>Income</button>

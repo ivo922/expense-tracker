@@ -21,7 +21,7 @@ import Navbar from '../components/navbar/navbar';
 import Overview from '../views/overview';
 
 function App() {
-  const { user, updateUser } = useUserContext();
+  const { user, setUser } = useUserContext();
   const userId = Cookies.get('session');
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function App() {
             const user = await response.json();
 
             if (!!user) {
-              updateUser(user);
+              setUser(user);
             }
           }
         }
