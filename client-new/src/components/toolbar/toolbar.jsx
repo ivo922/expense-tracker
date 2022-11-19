@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import AccountsDropdown from '../accounts-dropdown/accounts-dropdown';
+import AccountsDropdown from '../accounts/accounts-dropdown';
 import Avatar from '../avatar/avatar';
 import { useSidebarContext } from '../sidebar/use-sidebar-context';
 

@@ -4,14 +4,14 @@ import { usePopupContext } from './use-popup-context';
 import '../../assets/scss/components/popup.scss';
 
 function Popup({ children }) {
-  const { popup, open } = usePopupContext();
+  const { close } = usePopupContext();
 
   return (
     <div className="popup">
       <div
         className="popup__overlay"
         onClick={() => {
-          open('');
+          close();
         }}
       ></div>
 
@@ -19,7 +19,7 @@ function Popup({ children }) {
         <button
           className="btn popup__close"
           onClick={() => {
-            open('');
+            close('');
           }}
         >
           <span></span>

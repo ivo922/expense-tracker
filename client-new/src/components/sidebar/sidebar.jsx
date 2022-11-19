@@ -1,6 +1,8 @@
 import React from 'react';
-// import AccountsCRUD from '../AccountsCRUD/AccountsCRUD';
 // import Logout from '../Logout/Logout';
+
+// Blocks
+import Accounts from '../../blocks/accounts';
 
 // Components
 import { useSidebarContext } from './use-sidebar-context';
@@ -30,7 +32,7 @@ function Sidebar() {
       <div className="sidebar__body">
         <SidebarProfile />
 
-        {/* <AccountsCRUD /> */}
+        <Accounts />
       </div>
 
       <footer className="sidebar__foot">{/* <Logout>Logout</Logout> */}</footer>

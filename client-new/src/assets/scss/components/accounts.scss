@@ -1,0 +1,36 @@
+/* ------------------------------------------------------------ *\
+  accounts
+\* ------------------------------------------------------------ */
+
+@import '../../scss/generic/variables.scss';
+
+.accounts {
+  h6 {
+    padding: 5px 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .accounts__create {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 10px 5px;
+    border-top: solid 1px $c-white;
+    border-bottom: solid 1px $c-white;
+    background-color: rgba($c-lightgreen, 0.6);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon {
+    width: 26px;
+    height: 26px;
+    margin-right: 5px;
+  }
+}
