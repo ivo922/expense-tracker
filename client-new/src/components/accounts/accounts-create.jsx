@@ -57,19 +57,19 @@ function AccountsCreate() {
   /**
    * Create account.
    *
-   * @param {Object} data
+   * @param {Object} account
    */
-  const createAccount = (data) => {
+  const createAccount = (account) => {
     fetch(`http://localhost:5000/api/users/${user._id}/accounts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ account }),
     })
       .then((response) => response.json())
-      .then((user) => {
-        setUser(user);
+      .then((data) => {
+        setUser(data);
         close();
       })
       .catch((error) => console.error(error));

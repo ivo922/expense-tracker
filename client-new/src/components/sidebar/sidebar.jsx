@@ -2,7 +2,7 @@ import React from 'react';
 // import Logout from '../Logout/Logout';
 
 // Blocks
-import Accounts from '../../blocks/accounts';
+import Accounts from '../accounts/accounts';
 
 // Components
 import { useSidebarContext } from './use-sidebar-context';
