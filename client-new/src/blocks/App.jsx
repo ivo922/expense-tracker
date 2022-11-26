@@ -25,13 +25,16 @@ function App() {
     const checkCookie = async () => {
       try {
         if (Object.keys(user).length == 0) {
+          // console.log('Object.keys(user).length == 0');
           if (userId) {
+            // console.log('userId');
             const response = await fetch(
               `http://localhost:5000/api/users/${userId}`
             );
             const user = await response.json();
 
             if (!!user) {
+              // console.log('!!user');
               setUser(user);
             }
           }
@@ -42,9 +45,10 @@ function App() {
     };
 
     checkCookie();
-  }, []);
+  }, [user]);
 
   if (Object.keys(user).length == 0) {
+    // console.log('login');
     return <Login />;
   }
 

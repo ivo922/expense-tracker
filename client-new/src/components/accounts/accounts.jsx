@@ -10,6 +10,7 @@ import Popup from '../popup/popup';
 import Icon from '../icon/icon';
 import AccountsItem from './accounts-item';
 import AccountsCreate from './accounts-create';
+import AccountsEdit from './accounts-edit';
 
 const Accounts = () => {
   const { user, setUser } = useUserContext();
@@ -28,30 +29,7 @@ const Accounts = () => {
    * @param {Object} account
    */
   const editAccountPopup = (account) => {
-    open(<AccountsCreate account={account} onSubmit={onEdit} />);
-  };
-
-  /**
-   * Handles account edit.
-   *
-   * @param {Object} account
-   */
-  const onEdit = async (account) => {
-    const response = await fetch(`http://localhost:5000/api/users/${user._id}`);
-    const user = await response.json();
-
-    fetch(`http://localhost:5000/api/users/${user._id}/accounts/update`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(account),
-    })
-      .then((response) => response.json())
-      .then((user) => {
-        setUser(user);
-        open(null);
-      });
+    open(<AccountsEdit account={account} />);
   };
 
   return (
@@ -64,7 +42,9 @@ const Accounts = () => {
             <li key={index}>
               <AccountsItem
                 account={account}
-                onEdit={editAccountPopup}
+                onEdit={() => {
+                  editAccountPopup(account);
+                }}
               />
             </li>
           );

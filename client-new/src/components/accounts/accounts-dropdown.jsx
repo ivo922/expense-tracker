@@ -7,7 +7,7 @@ import { useUserContext } from '../user/use-user-context';
 import '../../assets/scss/components/accounts-dropdown.scss';
 
 function AccountsDropdown() {
-  const { user, account, setAccount } = useUserContext();
+  const { user, account, setAccount, getAccount } = useUserContext();
   const activeAccount = user.accounts[account];
   const [active, setActive] = useState(false);
 
