@@ -81,7 +81,7 @@ router.route('/api/users/:id/accounts')
 
 /**
  * User account.
- * TODO: test get and put
+ * TODO: test get
  */
 router.route('/api/users/:id/accounts/:accountId')
   .get(function (req, response) {
@@ -100,25 +100,34 @@ router.route('/api/users/:id/accounts/:accountId')
     const db_connect = dbo.getDb();
     const users = db_connect.collection('users');
 
+    const updatedAccount = {
+      _id: ObjectId(req.params.accountId),
+      name: req.body.name,
+      balance: req.body.balance,
+      categories: req.body.categories,
+    }
+
     const query = {
       _id: ObjectId(req.params.id),
       'accounts._id': ObjectId(req.params.accountId),
     };
     const values = {
       $set: {
-        'accounts.$': req.body.account,
+        'accounts.$': updatedAccount,
       },
     };
 
-    try {
-      users.updateOne(query, values, function (err, res) {
-        if (err) throw err;
-        console.log('1 document updated');
-        response.json(res);
-      });
-    } catch (error) {
-      throw error;
-    }
+    // Update user account.
+    users.updateOne(query, values, function (err, res) {
+      if (err) throw err;
+      console.log('1 document updated');
+    });
+
+    // Get updated user.
+    db_connect.collection('users').findOne({ _id: ObjectId(req.params.id) }, function (err, result) {
+      if (err) throw err;
+      response.json(result);
+    });
   })
   .delete(async (req, response) => {
     const db_connect = dbo.getDb();
@@ -154,8 +163,7 @@ router.route('/api/users/:id/accounts/:accountId')
  * TODO:
  * Create user transactions by user ID.
  */
-router
-  .route('/api/users/create/transaction/:id')
+router.route('/api/users/create/transaction/:id')
   .post(function (req, response) {
     let db_connect = dbo.getDb();
     let query = {
@@ -184,8 +192,7 @@ router
  * TODO:
  * Updates transaction by ID and updates account balance.
  */
-router
-  .route('/api/users/update/transaction/:id')
+router.route('/api/users/update/transaction/:id')
   .post(function (req, response) {
     let db_connect = dbo.getDb();
     let query = {
@@ -222,59 +229,60 @@ router
 /**
  * Login/Register
  */
-router.route('/api/v1/auth/google').post(async (req, res) => {
-  const { token } = req.body;
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
-  const { name, email, picture } = ticket.getPayload();
+router.route('/api/v1/auth/google')
+  .post(async (req, res) => {
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email, picture } = ticket.getPayload();
 
-  const db_connect = dbo.getDb();
-  const query = { email };
-  db_connect.collection('users').findOne(query, function (err, result) {
-    if (err) throw err;
+    const db_connect = dbo.getDb();
+    const query = { email };
+    db_connect.collection('users').findOne(query, function (err, result) {
+      if (err) throw err;
 
-    // If the user exists - return it.
-    if (!!result) {
-      res.status(200);
-      res.json(result);
-
-      // If the user doesn't exist - create a new one with base template.
-    } else {
-      const newUser = {
-        email,
-        name,
-        picture,
-        accounts: [
-          {
-            _id: ObjectId(),
-            name: 'General',
-            balance: 0,
-            categories: {
-              income: ['Salary', 'Loan', 'Other'],
-              expense: [
-                'Food',
-                'Entertainment',
-                'Car',
-                'Health',
-                'Education',
-                'Clothing',
-                'Other',
-              ],
-            },
-          },
-        ],
-        transactions: [],
-      };
-
-      db_connect.collection('users').insertOne(newUser, function (err, result) {
-        if (err) throw err;
-        res.status(201);
+      // If the user exists - return it.
+      if (!!result) {
+        res.status(200);
         res.json(result);
-      });
-    }
-  });
+
+        // If the user doesn't exist - create a new one with base template.
+      } else {
+        const newUser = {
+          email,
+          name,
+          picture,
+          accounts: [
+            {
+              _id: ObjectId(),
+              name: 'General',
+              balance: 0,
+              categories: {
+                income: ['Salary', 'Loan', 'Other'],
+                expense: [
+                  'Food',
+                  'Entertainment',
+                  'Car',
+                  'Health',
+                  'Education',
+                  'Clothing',
+                  'Other',
+                ],
+              },
+            },
+          ],
+          transactions: [],
+        };
+
+        db_connect.collection('users').insertOne(newUser, function (err, result) {
+          if (err) throw err;
+          res.status(201);
+          res.json(result);
+        });
+      }
+    });
 });
 
 module.exports = router;
