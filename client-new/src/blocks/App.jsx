@@ -16,6 +16,7 @@ import Sidebar from '../components/sidebar/sidebar';
 
 // Views
 import Overview from '../views/overview';
+import History from '../components/history/history';
 
 function App() {
   const { user, setUser } = useUserContext();
@@ -59,7 +60,7 @@ function App() {
         <Routes>
           <Route path="*" element={<Overview />} />
 
-          {/* <Route path="/history" element={<History />} /> */}
+          <Route path="/history" element={<History />} />
         </Routes>
 
         <Navbar />

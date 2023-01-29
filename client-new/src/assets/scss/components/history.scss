@@ -1,10 +1,15 @@
 /* ------------------------------------------------------------ *\
-  wrapper
+  History
 \* ------------------------------------------------------------ */
 
-.wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 63px;
+.history {
+  flex: 1;
+}
+
+.history__date {
+  padding: 8px 16px;
+}
+
+.history__date span + span::before {
+  content: ', ';
 }

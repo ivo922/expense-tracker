@@ -9,7 +9,7 @@ import '../../assets/scss/components/balance.scss';
 function Balance() {
   const { user, account } = useUserContext();
   const activeAccount = user.accounts[account];
-
+console.log(user);
   return (
     <div
       className={`balance${activeAccount.balance < 0 ? ' negative' : ' positive'}`}
