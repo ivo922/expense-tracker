@@ -21,7 +21,8 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
  * Get user by ID.
  * TODO: test delete
  */
-router.route('/api/users/:id')
+router
+  .route('/api/users/:id')
   .get(function (req, res) {
     let db_connect = dbo.getDb();
     let query = { _id: ObjectId(req.params.id) };
@@ -44,7 +45,8 @@ router.route('/api/users/:id')
  * Create user account.
  * TODO: test get
  */
-router.route('/api/users/:id/accounts')
+router
+  .route('/api/users/:id/accounts')
   .get(function (req, res) {
     let db_connect = dbo.getDb();
     let query = {
@@ -67,10 +69,12 @@ router.route('/api/users/:id/accounts')
     };
 
     // Update user by adding a new account.
-    db_connect.collection('users').updateOne(query, values, function (err, res) {
-      if (err) throw err;
-      console.log('1 document updated');
-    });
+    db_connect
+      .collection('users')
+      .updateOne(query, values, function (err, res) {
+        if (err) throw err;
+        console.log('1 document updated');
+      });
 
     // Get updated user.
     db_connect.collection('users').findOne(query, function (err, result) {
@@ -83,7 +87,8 @@ router.route('/api/users/:id/accounts')
  * User account.
  * TODO: test get
  */
-router.route('/api/users/:id/accounts/:accountId')
+router
+  .route('/api/users/:id/accounts/:accountId')
   .get(function (req, response) {
     let db_connect = dbo.getDb();
     let query = {
@@ -105,7 +110,7 @@ router.route('/api/users/:id/accounts/:accountId')
       name: req.body.name,
       balance: req.body.balance,
       categories: req.body.categories,
-    }
+    };
 
     const query = {
       _id: ObjectId(req.params.id),
@@ -124,10 +129,12 @@ router.route('/api/users/:id/accounts/:accountId')
     });
 
     // Get updated user.
-    db_connect.collection('users').findOne({ _id: ObjectId(req.params.id) }, function (err, result) {
-      if (err) throw err;
-      response.json(result);
-    });
+    db_connect
+      .collection('users')
+      .findOne({ _id: ObjectId(req.params.id) }, function (err, result) {
+        if (err) throw err;
+        response.json(result);
+      });
   })
   .delete(async (req, response) => {
     const db_connect = dbo.getDb();
@@ -139,12 +146,12 @@ router.route('/api/users/:id/accounts/:accountId')
     };
     const userQuery = {
       _id: ObjectId(req.params.id),
-    }
+    };
     const options = {
       $pull: {
-        accounts: { _id: ObjectId(req.params.accountId) }
-      }
-    }
+        accounts: { _id: ObjectId(req.params.accountId) },
+      },
+    };
 
     try {
       // Delete account from user.
@@ -160,17 +167,18 @@ router.route('/api/users/:id/accounts/:accountId')
   });
 
 /**
- * TODO:
  * Create user transactions by user ID.
  */
-router.route('/api/users/create/transaction/:id')
+router
+  .route('/api/users/:id/transactions')
   .post(function (req, response) {
-    let db_connect = dbo.getDb();
-    let query = {
+    const db_connect = dbo.getDb();
+    const query = {
       _id: ObjectId(req.params.id),
       'accounts.name': req.body.newAccount.name,
     };
-    let values = {
+
+    const values = {
       $set: {
         'accounts.$.balance': req.body.newAccount.balance,
       },
@@ -184,7 +192,14 @@ router.route('/api/users/create/transaction/:id')
       .updateOne(query, values, function (err, res) {
         if (err) throw err;
         console.log('1 document updated');
-        response.json(res);
+        // response.json(res);
+
+        db_connect
+        .collection('users')
+        .findOne({ _id: ObjectId(req.params.id) }, (err, result) => {
+          if (err) throw err;
+          response.json(result);
+        });
       });
   });
 
@@ -192,7 +207,8 @@ router.route('/api/users/create/transaction/:id')
  * TODO:
  * Updates transaction by ID and updates account balance.
  */
-router.route('/api/users/update/transaction/:id')
+router
+  .route('/api/users/update/transaction/:id')
   .post(function (req, response) {
     let db_connect = dbo.getDb();
     let query = {
@@ -200,8 +216,8 @@ router.route('/api/users/update/transaction/:id')
     };
     let values = {
       $set: {
-        "accounts.$[account].balance": req.body.newAccount.balance,
-        "transactions.$[transaction]": req.body.transactions // Not sure if this works because of _id
+        'accounts.$[account].balance': req.body.newAccount.balance,
+        'transactions.$[transaction]': req.body.transactions, // Not sure if this works because of _id
       },
       $push: {
         transactions: { _id: ObjectId(), ...req.body.transaction },
@@ -210,8 +226,8 @@ router.route('/api/users/update/transaction/:id')
 
     let filters = {
       arrayFilters: [
-        { "account": { name: req.body.newAccount.name } },
-        { "transaction": { _id: req.body.transaction._id } },
+        { account: { name: req.body.newAccount.name } },
+        { transaction: { _id: req.body.transaction._id } },
       ],
     };
 
@@ -229,60 +245,59 @@ router.route('/api/users/update/transaction/:id')
 /**
  * Login/Register
  */
-router.route('/api/v1/auth/google')
-  .post(async (req, res) => {
-    const { token } = req.body;
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const { name, email, picture } = ticket.getPayload();
+router.route('/api/v1/auth/google').post(async (req, res) => {
+  const { token } = req.body;
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  const { name, email, picture } = ticket.getPayload();
 
-    const db_connect = dbo.getDb();
-    const query = { email };
-    db_connect.collection('users').findOne(query, function (err, result) {
-      if (err) throw err;
+  const db_connect = dbo.getDb();
+  const query = { email };
+  db_connect.collection('users').findOne(query, function (err, result) {
+    if (err) throw err;
 
-      // If the user exists - return it.
-      if (!!result) {
-        res.status(200);
-        res.json(result);
+    // If the user exists - return it.
+    if (!!result) {
+      res.status(200);
+      res.json(result);
 
-        // If the user doesn't exist - create a new one with base template.
-      } else {
-        const newUser = {
-          email,
-          name,
-          picture,
-          accounts: [
-            {
-              _id: ObjectId(),
-              name: 'General',
-              balance: 0,
-              categories: {
-                income: ['Salary', 'Loan', 'Other'],
-                expense: [
-                  'Food',
-                  'Entertainment',
-                  'Car',
-                  'Health',
-                  'Education',
-                  'Clothing',
-                  'Other',
-                ],
-              },
+      // If the user doesn't exist - create a new one with base template.
+    } else {
+      const newUser = {
+        email,
+        name,
+        picture,
+        accounts: [
+          {
+            _id: ObjectId(),
+            name: 'General',
+            balance: 0,
+            categories: {
+              income: ['Salary', 'Loan', 'Other'],
+              expense: [
+                'Food',
+                'Entertainment',
+                'Car',
+                'Health',
+                'Education',
+                'Clothing',
+                'Other',
+              ],
             },
-          ],
-          transactions: [],
-        };
+          },
+        ],
+        transactions: [],
+      };
 
-        db_connect.collection('users').insertOne(newUser, function (err, result) {
-          if (err) throw err;
-          res.status(201);
-          res.json(result);
-        });
-      }
-    });
+      db_connect.collection('users').insertOne(newUser, function (err, result) {
+        if (err) throw err;
+        res.status(201);
+        res.json(result);
+      });
+    }
+  });
 });
 
 module.exports = router;

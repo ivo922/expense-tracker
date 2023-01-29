@@ -7,7 +7,7 @@ import { useUserContext } from '../user/use-user-context';
 import '../../assets/scss/components/accounts-dropdown.scss';
 
 function AccountsDropdown() {
-  const { user, account, setAccount, getAccount } = useUserContext();
+  const { user, account, setAccount } = useUserContext();
   const activeAccount = user.accounts[account];
   const [active, setActive] = useState(false);
 
@@ -32,7 +32,7 @@ function AccountsDropdown() {
                 setAccount(index);
                 setActive(false);
               }}
-            >{`${account.name} - ${account.balance / 100} BGN`}</li>
+            >{`${account.name} - ${account.balance} BGN`}</li>
           );
         })}
       </ul>

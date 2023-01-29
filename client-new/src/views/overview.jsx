@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 // Components
 import Balance from '../components/balance/balance';
 import { usePopupContext } from '../components/popup/use-popup-context';
-// import OperationCreate from '../Operation/OperationCreate';
 
 // Styles
 import '../assets/scss/components/overview.scss';
+import Operation from '../components/operation/operation';
 
 function Overview() {
   const { open } = usePopupContext();
@@ -16,17 +16,17 @@ function Overview() {
   }, []);
 
   const openIncomePopup = () => {
-    // open(<OperationCreate operation="income" />);
+    open(<Operation type="income" />);
   };
 
   const openExpensePopup = () => {
-    // open(<OperationCreate operation="expense" />);
+    open(<Operation type="expense" />);
   };
 
   const openTransferPopup = () => {};
 
   return (
-    <div className="Overview">
+    <div className="overview">
       <Balance />
 
       <div className="operations">

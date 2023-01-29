@@ -36,7 +36,9 @@ const Login = () => {
       <div className="login__inner">
         <h2 className="login__title">Please Sign In to access your account.</h2>
 
-        <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} />
+        <div className="login__btn">
+          <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} />
+        </div>
       </div>
     </div>
   );
