@@ -1,6 +1,6 @@
 import React from 'react';
 
-function HistoryDate({ fullDate, cls }) {
+function HistoryDate({ fullDate, cls, total }) {
   const parsedDate = new Date(fullDate);
   const months = [
     'Jan',
@@ -25,6 +25,8 @@ function HistoryDate({ fullDate, cls }) {
       <span>{month} {date}</span>
 
       <span>{year}</span>
+
+      <strong className={total > 0 ? 'positive' : 'negative'}>{total} BGN</strong>
     </div>
   );
 }

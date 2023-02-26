@@ -2,6 +2,8 @@
   History
 \* ------------------------------------------------------------ */
 
+@import '../../scss/generic/variables.scss';
+
 .history {
   flex: 1;
 }
@@ -12,4 +14,24 @@
 
 .history__date span + span::before {
   content: ', ';
+}
+
+.history__date strong::before {
+  content: ' (';
+}
+
+.history__date strong::after {
+  content: ')';
+}
+
+.history__date strong.positive {
+  color: $c-lightgreen;
+
+  &::before {
+    content: ' (+';
+  }
+}
+
+.history__date strong.negative {
+  color: $c-red;
 }
