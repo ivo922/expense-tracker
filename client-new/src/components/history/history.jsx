@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 // import OperationEdit from '../Operation/OperationEdit';
 
 import '../../assets/scss/components/history.scss';
@@ -13,7 +13,10 @@ function History() {
   const { close } = usePopupContext();
   const activeAccount = user.accounts[account];
   const transactions = user.transactions.filter((item) => item.account === activeAccount.name);
-  let dateToSplitBy = '';
+
+  useEffect(() => {
+    document.title = 'History';
+  }, []);
 
   // Sort transactions by date.
   const sortedTransactions = {};
