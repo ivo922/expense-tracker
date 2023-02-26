@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
 
 // Styles
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+
+// Components
 import { useUserContext } from '../user/use-user-context';
 import { usePopupContext } from '../popup/use-popup-context';
 
@@ -13,63 +16,61 @@ function Operation({ type }) {
 
   /**
    * Current user.
-   *
    */
   const { user, setUser, account } = useUserContext();
   const activeAccount = user.accounts[account];
   const { close } = usePopupContext();
 
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
+
   /**
    * Handles form submit.
    *
-   * @param {Event} event
+   * @param {Object} data
    */
-  const onSubmit = async (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.target);
-    let value = data.get('value');
-    const category = data.get('category');
-    const date = data.get('date');
-    const description = data.get('description');
+  const onSubmit = (data) => {
+    let value = data.value;
 
     if (
       !activeAccount &&
-      !activeAccount.categories[type].includes(category)
+      !activeAccount.categories[type].includes(data.category)
     ) {
       alert('Invalid transaction');
       return;
     }
 
     if (type === 'expense') {
-      value = -value;
+      value = -data.value;
     }
 
     const transaction = {
       type: type,
       account: activeAccount.name,
-      category: category,
-      date: date,
+      category: data.category,
+      date: data.date,
       fullDate: startDate.toString(),
       value: value,
-      description: description,
+      description: data.description,
     };
 
     const newAccount = {
       name: activeAccount.name,
-      balance: +activeAccount.balance + +value,
+      balance: Number(activeAccount.balance) + Number(value),
     };
 
-    const response = await fetch(`http://localhost:5000/api/users/${user._id}/transactions`, {
+    fetch(`http://localhost:5000/api/users/${user._id}/transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ newAccount, transaction }),
-    });
-    const updatedUser = await response.json();
-    setUser(updatedUser);
-    close();
+    })
+    .then((response) => response.json())
+    .then((updatedUser) => {
+      setUser(updatedUser);
+      close();
+    })
+    .catch((error) => console.log(error));
   };
 
   return (
@@ -78,33 +79,31 @@ function Operation({ type }) {
         {type} in {activeAccount.name}
       </h3>
 
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="form__row">
           <div className="form__controls">
             <label htmlFor="value">Value</label>
 
             <input
-              name="value"
               type="number"
-              defaultValue=""
               id="value"
               className="form__field"
               min="0"
               placeholder="E.g. 100.50"
               step=".01"
-              required
+              {...register('value', { required: true, min: 0 })}
             />
+
+            {errors.value && <span>This field is required</span>}
           </div>
 
           <div className="form__controls">
             <label htmlFor="category">Category</label>
 
             <select
-              name="category"
               id="category"
               className="form__field"
-              defaultValue={''}
-              required
+              {...register('category', { required: true })}
             >
               <option value="" disabled>
                 Select a category
@@ -117,6 +116,8 @@ function Operation({ type }) {
                 );
               })}
             </select>
+
+            {errors.category && <span>This field is required</span>}
           </div>
         </div>
 
@@ -124,13 +125,20 @@ function Operation({ type }) {
           <div className="form__controls">
             <label htmlFor="date">Date</label>
 
-            <DatePicker
-              selected={startDate}
-              onChange={(date = Date) => setStartDate(date)}
-              className="form__field"
-              id="date"
+            <Controller
+              control={control}
               name="date"
-              required
+              render={({ field: { onChange, value, ref } }) => (
+                <DatePicker
+                  onChange={(date = Date) => {
+                    setStartDate(date);
+                    onChange(date);
+                  }}
+                  className="form__field"
+                  id="date"
+                  selected={startDate}
+                />
+              )}
             />
           </div>
         </div>
@@ -140,11 +148,10 @@ function Operation({ type }) {
             <label htmlFor="description">Description</label>
 
             <input
-              name="description"
               placeholder="E.g. Food, Car, Clothes, etc."
               id="description"
               className="form__field"
-              maxLength={50}
+              {...register('description', { maxLength: 50 })}
             />
           </div>
         </div>
