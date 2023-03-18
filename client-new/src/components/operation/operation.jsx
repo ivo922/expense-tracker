@@ -28,34 +28,34 @@ function Operation({ type }) {
    *
    * @param {Object} data
    */
-  const onSubmit = (data) => {
-    let value = data.value;
+  const onSubmit = ({ category, description, value }) => {
+    let finalValue = value;
 
     if (
       !activeAccount &&
-      !activeAccount.categories[type].includes(data.category)
+      !activeAccount.categories[type].includes(category)
     ) {
       alert('Invalid transaction');
       return;
     }
 
     if (type === 'expense') {
-      value = -data.value;
+      finalValue = -value;
     }
 
     const transaction = {
       type: type,
       account: activeAccount.name,
-      category: data.category,
-      date: data.date,
+      category: category,
+      date: formatShortDate(startDate),
       fullDate: startDate.toString(),
-      value: value,
-      description: data.description,
+      value: finalValue,
+      description: description,
     };
 
     const newAccount = {
       name: activeAccount.name,
-      balance: Number(activeAccount.balance) + Number(value),
+      balance: Number(activeAccount.balance) + Number(finalValue),
     };
 
     fetch(`http://localhost:5000/api/users/${user._id}/transactions`, {
@@ -72,6 +72,17 @@ function Operation({ type }) {
     })
     .catch((error) => console.log(error));
   };
+
+  /**
+   * Formats a date into MM/dd/yyyy.
+   *
+   * @param {String} dateString
+   * @returns {String}
+   */
+  const formatShortDate = (dateString) => {
+    const date = new Date(dateString);
+    return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+  }
 
   return (
     <>

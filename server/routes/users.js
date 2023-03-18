@@ -19,7 +19,6 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
  * Get user by ID.
- * TODO: test delete
  */
 router
   .route('/api/users/:id')
